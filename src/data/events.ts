@@ -12,128 +12,153 @@ export interface EventData {
   whatsIncluded: string[];
   whoItsFor: string;
   format: string;
+  badge?: string;
+  featured?: boolean;
 }
 
 export const events: EventData[] = [
   {
-    id: "launch-night",
-    title: "Launch Night Open Play",
-    description: "Kick off the Courtana × Peak partnership with a free night of open play, live demos, and prizes.",
+    id: "grand-opening",
+    title: "Peak Pickleball Grand Opening — Dinks & Drinks with Chris Kelly",
+    description: "Live music. Craft drinks. Celebrity matches on smart courts. Every rally captured. Every highlight yours to keep.",
     longDescription: [
-      "Join us for the grand opening of the Courtana × Peak partnership! This free event is your first chance to experience smart court technology in action.",
-      "We'll have courts running all night with live stat tracking, instant replay stations, and our AI analysis giving you real-time feedback on your game.",
-      "Plus, stick around for raffles, giveaways, and a sneak peek at the full 8-week event lineup. Bring a friend — the more the merrier.",
-      "All skill levels welcome. Paddles and balls provided. Just show up ready to play."
+      "This is the event that puts Peak Pickleball on the map. Join us for a night of live music, craft cocktails, and high-energy pickleball on Courtana-powered smart courts.",
+      "Watch celebrity exhibition matches with real-time AI analysis on the big screens. Every rally captured, every highlight generated — and every player goes home with their best moments.",
+      "Live broadcast from championship courts visible from the highway and the Sheraton. This is Peak's coming-out party, powered by smart court technology.",
+      "General admission includes drinks, food, live entertainment, and access to all smart court features for the night."
     ],
-    date: "2026-03-29",
-    time: "6:00 PM – 9:00 PM",
+    date: "2026-05-09",
+    time: "5:00 PM – 10:00 PM",
+    price: 15,
+    spots: 200,
+    spotsTotal: 200,
+    category: "Special",
+    whatsIncluded: ["Live music & entertainment", "Craft drinks", "Smart court access", "Highlight reel", "Celebrity matches"],
+    whoItsFor: "Everyone — players, families, spectators. The biggest night in Peak Pickleball history.",
+    format: "Open format — exhibition matches, open play rotations, live entertainment throughout the evening.",
+    badge: "🔥 Grand Opening",
+    featured: true,
+  },
+  {
+    id: "spring-smash",
+    title: "Peak Spring Smash Tournament",
+    description: "4-day tournament targeting 300 players. Courtana cameras live on 4 courts — every match recorded, highlights auto-generated, leaderboard on displays.",
+    longDescription: [
+      "The Peak Spring Smash is the showcase moment for Courtana × Peak. 300 players across 4 days of competitive pickleball with smart court technology on every championship court.",
+      "Every match is recorded. Highlights are auto-generated. The live leaderboard runs on court-side displays. Every player leaves with a highlight reel and a reason to come back.",
+      "Multiple skill divisions ensure competitive, fun matches at every level. Double elimination brackets with games to 11, win by 2.",
+      "This is the tournament that proves what smart courts can do for a venue. Massive social content, player engagement, and community buzz."
+    ],
+    date: "2026-05-01",
+    time: "8:00 AM – 6:00 PM",
+    price: 40,
+    spots: 300,
+    spotsTotal: 300,
+    category: "Tournament",
+    whatsIncluded: ["4 days of tournament play", "Smart court recording", "Auto-generated highlights", "Live leaderboard", "Medals for winners"],
+    whoItsFor: "All skill levels — multiple divisions from 3.0 to 5.0+.",
+    format: "Double elimination brackets by skill division. Games to 11, win by 2.",
+  },
+  {
+    id: "coaches-preview",
+    title: "Courtana Court Preview: Coaches Only",
+    description: "Private session for Chris and his coaching staff. See AI analysis on your own games. Coaches become evangelists before players see it.",
+    longDescription: [
+      "This invite-only session gives Peak's coaching team exclusive early access to Courtana's smart court technology.",
+      "Each coach plays a full session while the AI analyzes their technique — shot selection, spin rate, placement accuracy, and consistency patterns.",
+      "The goal: coaches experience the technology firsthand so they can authentically recommend it to their students. When coaches are believers, players follow.",
+      "Includes a full walkthrough of the coaching tools, revenue sharing model, and how to integrate AI analysis into lesson plans."
+    ],
+    date: "2026-04-14",
+    time: "10:00 AM – 12:00 PM",
     price: 0,
+    spots: 10,
+    spotsTotal: 10,
+    category: "Clinic",
+    whatsIncluded: ["2-hour smart court session", "AI analysis on your game", "Coaching tools walkthrough", "Revenue model briefing"],
+    whoItsFor: "Peak coaching staff only — invite required.",
+    format: "Guided demo + free play on smart courts with AI analysis running.",
+    badge: "Invite Only",
+  },
+  {
+    id: "open-play-happy-hour",
+    title: "Open Play Happy Hour",
+    description: "Weekly Thursday open play with smart court features active. Members play free, guests $10. The easiest way to experience Courtana.",
+    longDescription: [
+      "Every Thursday starting April 17, Peak's Courtana courts come alive for Open Play Happy Hour.",
+      "Real-time court displays show who's playing, skill levels, and open spots. No more group text chains — just show up, scan in, and Courtana matches you.",
+      "Members play free. Guests pay $10 — and get full access to smart court features including instant replay, shot tracking, and the weekly leaderboard.",
+      "This is the weekly heartbeat of the Courtana experience at Peak. Consistent, fun, and powered by smart tech."
+    ],
+    date: "2026-04-17",
+    time: "5:00 PM – 8:00 PM",
+    price: 10,
     spots: 40,
     spotsTotal: 40,
     category: "Open Play",
-    whatsIncluded: ["3 hours of open play", "Smart court stat tracking", "Instant replay access", "Raffle entry", "Snacks & drinks"],
-    whoItsFor: "Everyone — all skill levels welcome. Perfect for curious beginners and seasoned players alike.",
-    format: "Open play rotation. Courts assigned on arrival. 15-minute game rotations."
+    whatsIncluded: ["3 hours of open play", "Smart court features", "Skill-based matching", "Weekly leaderboard entry"],
+    whoItsFor: "All levels. Members free, guests $10.",
+    format: "Open rotation. Courtana handles court assignments and skill matching.",
   },
   {
-    id: "drill-play-michael",
-    title: "Drill & Play with Coach Michael",
-    description: "90-minute clinic focusing on third-shot drops, resets, and transition game with IPTPA-certified Coach Michael.",
+    id: "ai-coaching-clinic",
+    title: "AI Coaching Clinic: Third Shot Mastery",
+    description: "Coach-led drills with AI analysis delivered to each player within 24 hours. $25/player, 16 spots. The first paid AI coaching session.",
     longDescription: [
-      "Coach Michael brings 15 years of racquet sports experience and IPTPA certification to this focused 90-minute clinic.",
-      "The session breaks down into three segments: warm-up drills (20 min), focused skill work on third-shot drops and resets (40 min), and live game application (30 min).",
-      "With Courtana's smart court tech, you'll see your shot data in real time — spin rate, placement accuracy, and consistency metrics that help you understand exactly where to improve.",
-      "Limited to 16 players (4 per court) to ensure personalized attention and maximum reps."
+      "The first paid coaching clinic on Courtana courts — and the test of the AI coaching revenue model Chris was excited about.",
+      "Coach-led drills focus on the third shot drop, one of pickleball's most critical and hardest-to-master shots. The AI tracks every attempt — spin, trajectory, landing zone, consistency.",
+      "Within 24 hours of the clinic, each player receives a personalized AI analysis report showing their performance, patterns, and specific drills to practice.",
+      "At $25/player with 16 spots, this clinic validates the $20-25 AI coaching price point. Revenue split: 70% coach, 20% Peak, 10% Courtana."
     ],
-    date: "2026-04-02",
-    time: "7:00 PM – 8:30 PM",
-    price: 40,
+    date: "2026-04-22",
+    time: "6:00 PM – 7:30 PM",
+    price: 25,
     spots: 16,
     spotsTotal: 16,
     category: "Clinic",
-    whatsIncluded: ["90-minute coached session", "Video analysis with AI feedback", "Drill progression handout", "Post-session stat report"],
-    whoItsFor: "Intermediate players (3.0–4.0) looking to sharpen their transition game.",
-    format: "4 courts, 4 players per court. Rotating drills with coach feedback between stations."
+    whatsIncluded: ["90-minute coached clinic", "AI shot analysis", "Personalized report within 24hrs", "Drill progression plan"],
+    whoItsFor: "Intermediate players (3.0–4.0) looking to master the third shot drop.",
+    format: "4 courts, 4 players per court. Rotating drills with AI tracking every shot.",
   },
   {
-    id: "spring-charity-robin",
-    title: "Spring Charity Round Robin",
-    description: "Friendly round robin tournament with all proceeds going to the local youth sports foundation.",
+    id: "friday-night-lights",
+    title: "Friday Night Lights: Live Broadcast",
+    description: "Live broadcast from championship courts. Watch from the highway, the Sheraton, or courtside. Free to watch, $5 to play.",
     longDescription: [
-      "Grab a partner and play for a cause! This round robin pairs you with different partners throughout the afternoon for a fun, competitive experience.",
-      "Every dollar of your entry fee goes directly to the Peak Youth Sports Foundation, supporting equipment grants and court access for underserved kids.",
-      "Courtana's smart courts will track every match — and at the end of the day, we'll award prizes for Most Aces, Best Rally, and the coveted 'Heart of the Court' sportsmanship award.",
-      "Light refreshments provided. Medals for the top 3 teams."
+      "Every Friday night starting May 16, Peak's championship courts go live. Smart court cameras broadcast matches to screens inside the venue, on the highway-facing displays, and online.",
+      "Players pay $5 to compete in the Friday night showcase — complete with live stats, instant replay, and real-time leaderboard. Spectators watch free.",
+      "Peak is 30 seconds from a Sheraton and visible from the highway. Friday Night Lights turns cameras into a marketing billboard — attracting hotel guests, passersby, and curious spectators.",
+      "This is how smart courts drive walk-in traffic and guest fee revenue without spending a dollar on advertising."
     ],
-    date: "2026-04-05",
+    date: "2026-05-16",
+    time: "7:00 PM – 10:00 PM",
+    price: 5,
+    spots: 32,
+    spotsTotal: 32,
+    category: "Special",
+    whatsIncluded: ["Live broadcast", "Smart court recording", "Instant replay", "Leaderboard competition", "Spectator-friendly atmosphere"],
+    whoItsFor: "Players ($5 to compete) and spectators (free). All levels welcome.",
+    format: "Showcase matches on championship courts with live broadcast.",
+  },
+  {
+    id: "charity-round-robin",
+    title: "Charity Round Robin",
+    description: "Friendly round robin with all proceeds donated. Smart courts track every match — awards for Most Aces, Best Rally, and Heart of the Court.",
+    longDescription: [
+      "Grab a partner and play for a cause. This round robin pairs you with different partners throughout the afternoon for a fun, competitive experience.",
+      "Every dollar of your $20 donation entry goes directly to local youth sports programs. Courtana's smart courts track every match for post-event analysis.",
+      "At the end of the day, we award prizes for Most Aces, Best Rally, and the coveted 'Heart of the Court' sportsmanship award — all determined by smart court data.",
+      "Light refreshments provided. Medals for the top 3 teams. A feel-good event that also showcases smart court tech to 24 players."
+    ],
+    date: "2026-05-17",
     time: "10:00 AM – 2:00 PM",
-    price: 15,
+    price: 20,
     spots: 24,
     spotsTotal: 24,
     category: "Tournament",
-    whatsIncluded: ["4 hours of play", "Partner rotation format", "Medals for top 3", "Stat awards", "Refreshments"],
-    whoItsFor: "All skill levels. We balance teams to keep matches competitive and fun.",
-    format: "Round robin with rotating partners. 6 rounds, 15-minute matches. Points-based standings."
-  },
-  {
-    id: "beginner-bootcamp",
-    title: "Beginner Bootcamp",
-    description: "Never played pickleball? Start here. Learn the rules, basic strokes, scoring, and court etiquette.",
-    longDescription: [
-      "Pickleball is the fastest-growing sport in America, and this bootcamp is your perfect on-ramp. Zero experience required.",
-      "We'll cover everything: how to hold the paddle, the basic strokes (serve, return, dink, volley), the kitchen rule, and scoring. By the end of 90 minutes, you'll be playing real games confidently.",
-      "Our smart court technology provides gentle, encouraging feedback — think of it like having a patient coach watching every shot and helping you improve in real time.",
-      "Small group size means plenty of individual attention. You'll leave with a personalized tip sheet based on your session data."
-    ],
-    date: "2026-04-09",
-    time: "6:30 PM – 8:00 PM",
-    price: 25,
-    spots: 12,
-    spotsTotal: 12,
-    category: "Clinic",
-    whatsIncluded: ["90-minute lesson", "Paddle & balls provided", "Personalized tip sheet", "Smart court feedback", "Follow-up practice plan"],
-    whoItsFor: "Complete beginners. No equipment or experience needed.",
-    format: "Instructor-led progression: basics → drills → guided games."
-  },
-  {
-    id: "friday-night-fights",
-    title: "Friday Night Fights",
-    description: "Competitive doubles tournament with bracket play, live leaderboards, and prizes for the top teams.",
-    longDescription: [
-      "Friday Night Fights is where the competitive players come to battle. Bring your A-game and a partner — this is bracket-style doubles with real stakes.",
-      "We run a double-elimination bracket with games to 11, win by 2. Courtana's live leaderboard shows real-time standings, and our smart courts capture every point for post-match analysis.",
-      "Top 3 teams win prizes: gift cards, free clinic passes, and bragging rights on the permanent Peak leaderboard.",
-      "Check-in starts at 6:30 PM. First serve at 7:00 PM sharp. Estimated finish by 9:30 PM."
-    ],
-    date: "2026-04-11",
-    time: "7:00 PM – 9:30 PM",
-    price: 10,
-    spots: 32,
-    spotsTotal: 32,
-    category: "Tournament",
-    whatsIncluded: ["Double elimination bracket", "Live leaderboard", "Match replays", "Prizes for top 3", "Post-match stat reports"],
-    whoItsFor: "Intermediate to advanced players (3.5+). Competitive but respectful atmosphere.",
-    format: "Double elimination bracket. Teams of 2. Games to 11, win by 2."
-  },
-  {
-    id: "pro-am-exhibition",
-    title: "Pro-Am Exhibition",
-    description: "Watch local pros play, then join them on court. A showcase of what smart court tech can do at the highest level.",
-    longDescription: [
-      "The Pro-Am Exhibition is the crown jewel of the Courtana × Peak launch. Watch top-rated local pros demonstrate elite-level play while Courtana's AI breaks down their techniques in real time on the big screen.",
-      "After the exhibition matches, it's your turn. Sign up for a chance to play alongside the pros in mixed doubles games. Our AI will compare your stats to the pros — it's humbling, hilarious, and incredibly educational.",
-      "The event includes a Q&A panel with the pros, a Courtana tech demo, and a preview of premium features coming to Peak.",
-      "Food trucks on site. This is the event you don't want to miss."
-    ],
-    date: "2026-04-19",
-    time: "4:00 PM – 8:00 PM",
-    price: 20,
-    spots: 60,
-    spotsTotal: 60,
-    category: "Special",
-    whatsIncluded: ["Pro exhibition matches", "Play-with-a-pro session", "AI analysis demo", "Pro Q&A panel", "Food truck access"],
-    whoItsFor: "Everyone — watch the pros, then try it yourself. All levels welcome for the play-along portion.",
-    format: "Exhibition matches (1 hr) → Pro-Am mixed doubles (2 hrs) → Q&A + demo (1 hr)."
+    whatsIncluded: ["4 hours of play", "Partner rotation format", "Medals for top 3", "Smart court stat awards", "Refreshments"],
+    whoItsFor: "All skill levels. Balanced teams keep matches competitive and fun.",
+    format: "Round robin with rotating partners. 6 rounds, 15-minute matches. Points-based standings.",
   },
 ];
 

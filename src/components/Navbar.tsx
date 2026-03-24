@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
+  { label: "The Plan", href: "/" },
   { label: "Events", href: "/events" },
-  { label: "Schedule", href: "/schedule" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Discovery", href: "/discovery" },
-  { label: "Ecosystem", href: "/partners" },
-  { label: "About", href: "/about" },
+  { label: "Dashboard", href: "/dashboard", icon: Lock },
 ];
 
 const Navbar = () => {
@@ -35,11 +32,12 @@ const Navbar = () => {
             <Link
               key={l.href}
               to={l.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-sm font-medium transition-colors hover:text-primary flex items-center gap-1.5 ${
                 location.pathname === l.href ? "text-primary" : "text-muted-foreground"
               }`}
             >
               {l.label}
+              {l.icon && <l.icon size={12} />}
             </Link>
           ))}
           <Button variant="outline" size="sm" className="border-primary/30 text-primary hover:bg-primary/10">
@@ -61,9 +59,10 @@ const Navbar = () => {
               key={l.href}
               to={l.href}
               onClick={() => setOpen(false)}
-              className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary"
+              className="block py-2 text-sm font-medium text-muted-foreground hover:text-primary flex items-center gap-1.5"
             >
               {l.label}
+              {l.icon && <l.icon size={12} />}
             </Link>
           ))}
           <Button variant="outline" size="sm" className="w-full border-primary/30 text-primary hover:bg-primary/10">

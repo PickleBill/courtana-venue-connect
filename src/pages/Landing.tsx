@@ -1,18 +1,12 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  Calendar, CreditCard, BarChart3, Camera, Megaphone, Settings,
-  ArrowRight, Mail, Trophy, Shield, Brain, Play, Zap, ExternalLink
+  Camera, Megaphone, Brain, Gamepad2, Users, Radio,
+  ArrowRight, Mail, BarChart3, ExternalLink, Zap, MessageSquareQuote
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { weekPartners } from "@/data/partners";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import EcosystemFlywheel from "@/components/partners/EcosystemFlywheel";
-import LeaderboardMockup from "@/components/mockups/LeaderboardMockup";
-import BadgesMockup from "@/components/mockups/BadgesMockup";
-import AIAnalysisMockup from "@/components/mockups/AIAnalysisMockup";
-import ReplayMockup from "@/components/mockups/ReplayMockup";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -24,45 +18,44 @@ const stagger = {
 };
 
 const stats = [
-  { value: "8", label: "Week Program" },
-  { value: "$0", label: "Upfront Cost" },
-  { value: "$95", label: "/mo After Pilot" },
-  { value: "40%+", label: "Utilization Lift" },
+  { value: "4", label: "Smart Courts" },
+  { value: "$0", label: "Upfront" },
+  { value: "May 9", label: "Grand Opening" },
+  { value: "300", label: "Player Tournament" },
+];
+
+const quotes = [
+  "I need to justify every dollar to an owner who invested $1.5 million in this facility.",
+  "The biggest problem with tech tools is they lose novelty after a month. Gamification and badges — that's what keeps people coming back.",
+  "If you can show me the numbers after the pilot, I'll expand to all 16 courts.",
 ];
 
 const valueProps = [
-  { icon: Calendar, title: "We Run the Events", desc: "From clinics to tournaments, we plan, promote, and execute every event on your calendar." },
-  { icon: CreditCard, title: "We Handle Payments", desc: "Stripe-powered checkout. Players pay online, you see revenue in your dashboard." },
-  { icon: BarChart3, title: "We Prove the Numbers", desc: "Weekly reports on court utilization, revenue, and player engagement. No guessing." },
-  { icon: Camera, title: "Smart Court Tech Included", desc: "Cameras, sensors, and AI analysis installed at zero cost during the pilot." },
-  { icon: Megaphone, title: "Co-Branded Marketing", desc: "We create the flyers, social posts, and email campaigns. Your brand, our execution." },
-  { icon: Settings, title: "Works With Court Reserve", desc: "Seamless integration with your existing booking system. No double-entry." },
+  { icon: Camera, title: "Cameras on 4 Courts", desc: "One camera per court. Non-invasive install. Instant replay on court-side displays. Players see their highlights in real time." },
+  { icon: Megaphone, title: "We Run Your Events", desc: "May 1 tournament? We put cameras on it. Grand opening? We live-broadcast it. Coaching clinics? We handle booking and payment." },
+  { icon: Brain, title: "AI Coaching at $20–25", desc: "Your coaches' lessons, enhanced with AI video review. A new revenue tier between \"free advice\" and \"$80/hr lessons.\" 70% to coach, 20% to Peak, 10% to Courtana." },
+  { icon: Gamepad2, title: "Gamification That Sticks", desc: "Badges, XP, leaderboards, trick shot recognition. The dopamine loop that makes players say \"one more game.\" This is how we beat the 1–2 month novelty dropoff." },
+  { icon: Users, title: "Open Play, Solved", desc: "Real-time court displays showing who's playing, how many spots are open, skill levels on court. No more \"who's in?\" text chains. Players scan in and Courtana matches them." },
+  { icon: Radio, title: "Live Broadcast to the Highway", desc: "Peak is 30 seconds from a Sheraton and visible from the highway. Live streams from championship courts turn cameras into a marketing billboard." },
 ];
 
 const weeks = [
-  { num: 1, title: "Setup & Launch Party", focus: "Launch", color: "bg-purple-500/20 text-purple-400", desc: "Install smart court tech, configure systems, and host a free launch party to introduce Courtana to your members.", deliverables: ["Tech installed", "Launch event", "Email blast"] },
-  { num: 2, title: "Coaching Clinics", focus: "Events", color: "bg-amber-500/20 text-amber-400", desc: "Run the first paid clinics with certified coaches. Test pricing, gather feedback, and start building momentum.", deliverables: ["2 clinics", "Player surveys", "Revenue report"] },
-  { num: 3, title: "Round Robin + Charity", focus: "Events", color: "bg-amber-500/20 text-amber-400", desc: "Host a charity round robin to drive community engagement and press coverage. All proceeds to local youth sports.", deliverables: ["Tournament", "PR coverage", "Donation receipt"] },
-  { num: 4, title: "Gamification", focus: "Data", color: "bg-cyan-500/20 text-cyan-400", desc: "Launch leaderboards, challenges, and achievement badges. Turn casual players into regulars.", deliverables: ["Leaderboard live", "Weekly challenge", "Player profiles"] },
-  { num: 5, title: "Premium Pricing Test", focus: "Growth", color: "bg-primary/20 text-primary", desc: "Test peak/off-peak pricing strategies. Identify optimal price points for different event types.", deliverables: ["Pricing model", "A/B test results", "Revenue comparison"] },
-  { num: 6, title: "Pro-Am Showcase", focus: "Events", color: "bg-amber-500/20 text-amber-400", desc: "Bring in local pros for an exhibition event. Premium ticket pricing, maximum buzz.", deliverables: ["Pro-Am event", "Highlight reel", "Social content"] },
-  { num: 7, title: "Matchmaking", focus: "Data", color: "bg-cyan-500/20 text-cyan-400", desc: "Launch AI-powered matchmaking based on player data. Better matches = happier players = higher retention.", deliverables: ["Matchmaking live", "Retention metrics", "Player feedback"] },
-  { num: 8, title: "ROI Report", focus: "Review", color: "bg-red-500/20 text-red-400", desc: "Present the full pilot results: revenue generated, utilization lift, player growth, and the business case for continuing.", deliverables: ["ROI deck", "Renewal proposal", "Growth roadmap"] },
+  { num: 1, dates: "April 7–13", title: "Install + Coach Preview", focus: "LAUNCH", color: "bg-purple-500/20 text-purple-400", desc: "Install cameras on 4 courts. Configure displays. Run a private session for Chris and his 5 coaches — let them see AI analysis on their own games. Coaches become evangelists before players ever see it.", deliverables: ["Hardware installed", "Coach training session", "Baseline metrics captured", "Staff briefed"] },
+  { num: 2, dates: "April 14–20", title: "Courts Complete Celebration", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400", desc: "All 16 pickleball courts finish April 15. Mark the moment with a \"Courts Complete\" open house on the 4 Courtana courts. Free play, live highlights on the big screens, player account sign-ups. First taste of the gamification system.", deliverables: ["Open house event", "Player accounts created", "First highlights generated", "Social content captured"] },
+  { num: 3, dates: "April 21–27", title: "Coaching Clinic Series Launches", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400", desc: "First paid coaching clinic on Courtana courts. Coach-led drills with AI analysis delivered to each player within 24 hours. $25–40/player, 16 spots. Test the AI coaching revenue model Chris was excited about.", deliverables: ["Paid clinic ($400–640 revenue)", "AI analysis reports", "Coach feedback", "Revenue model validated"] },
+  { num: 4, dates: "April 28 – May 4", title: "TOURNAMENT WEEK — Spring Smash", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400", desc: "May 1–4 tournament targeting 300 players. Courtana cameras live on 4 courts — every match recorded, highlights auto-generated, leaderboard running on displays. This is the showcase moment. Every player leaves with a highlight reel and a reason to come back.", deliverables: ["300 players exposed to Courtana", "Highlight reels for all", "Tournament leaderboard", "Massive social content"] },
+  { num: 5, dates: "May 5–11", title: "GRAND OPENING — Dinks & Drinks", focus: "LAUNCH", color: "bg-purple-500/20 text-purple-400", desc: "May 9 grand opening with Chris Kelly. Live broadcast from championship courts. Courtana powers the on-screen experience — player stats, live leaderboard, instant replay on the big screens. Dinks & Drinks sponsored event. The facility's coming-out party, powered by smart court tech.", deliverables: ["Grand opening event", "Live broadcast", "Chris Kelly partnership content", "Membership spike tracking"] },
+  { num: 6, dates: "May 12–18", title: "Gamification Goes Live", focus: "DATA", color: "bg-cyan-500/20 text-cyan-400", desc: "Full gamification rollout: badges, XP points, achievement system, trick shot recognition, weekly leaderboard. This is the retention play — the thing that beats the \"novelty wears off after a month\" problem Chris identified. Players start earning status.", deliverables: ["Gamification system live", "Badge engagement tracking", "Leaderboard competition", "Repeat visit data"] },
+  { num: 7, dates: "May 19–25", title: "Matchmaking + Open Play Optimization", focus: "GROWTH", color: "bg-primary/20 text-primary", desc: "Turn on skill-based matchmaking and the open play display system. Real-time court status on screens — who's playing, skill level, spots open. \"Find Your Fourth\" feature goes live. Guest fees for non-members who come in through Courtana. Hotel guests from the Sheraton start discovering Peak through the live broadcast.", deliverables: ["Matchmaking active", "Open play displays", "Guest fee revenue", "Walk-in attribution"] },
+  { num: 8, dates: "May 26 – June 1", title: "The Numbers", focus: "REVIEW", color: "bg-red-500/20 text-red-400", desc: "End-of-pilot ROI review with Chris and the owner. Hard numbers: court utilization lift, revenue from events and AI coaching, player engagement metrics, highlights generated, new player accounts. The question isn't \"should we keep this?\" — it's \"how fast can we expand to all 16 courts?\"", deliverables: ["ROI dashboard presentation", "Expansion proposal", "16-court timeline", "Contract finalization"] },
 ];
 
 const revenueStreams = [
-  { name: "Clinics & Lessons", conservative: "$400", realistic: "$800", upside: "$1,200" },
-  { name: "Tournaments", conservative: "$200", realistic: "$500", upside: "$800" },
-  { name: "Open Play Fees", conservative: "$150", realistic: "$300", upside: "$500" },
-  { name: "Premium Time Slots", conservative: "$100", realistic: "$250", upside: "$400" },
-  { name: "Merch & Concessions", conservative: "$50", realistic: "$150", upside: "$300" },
-];
-
-const featureMockups = [
-  { title: "Local Leaderboards", desc: "Drive competitive engagement and repeat visits with venue-specific rankings, XP systems, and seasonal competition.", icon: Trophy },
-  { title: "Achievement Badges", desc: "Reward consistency and milestones. Players earn badges for streaks, skill achievements, and social play.", icon: Shield },
-  { title: "AI Shot Analysis", desc: "Every shot tracked, every pattern analyzed. Players get personalized insights that keep them on your courts.", icon: Brain },
-  { title: "Instant Replay", desc: "Review any point seconds after it happens. Share highlights, settle disputes, and create social content.", icon: Play },
+  { name: "Premium court pricing ($25→$30/hr on 4 courts)", conservative: "$300", realistic: "$600", upside: "$900" },
+  { name: "AI coaching reviews (5 coaches × $25 sessions)", conservative: "$500", realistic: "$1,000", upside: "$1,500" },
+  { name: "Tournament/event revenue share", conservative: "$200", realistic: "$500", upside: "$800" },
+  { name: "Walk-in/guest fees (Sheraton + highway visibility)", conservative: "$100", realistic: "$300", upside: "$500" },
+  { name: "Open play optimization (reduced no-shows, better fill)", conservative: "$100", realistic: "$250", upside: "$400" },
 ];
 
 const Landing = () => {
@@ -72,7 +65,6 @@ const Landing = () => {
 
       {/* Hero */}
       <section className="relative pt-36 pb-28 px-4 overflow-hidden">
-        {/* Background gradient orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full opacity-20" style={{ background: "radial-gradient(ellipse, hsl(145 100% 45% / 0.3), transparent 70%)" }} />
           <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, hsl(48 100% 50% / 0.3), transparent 70%)" }} />
@@ -81,21 +73,16 @@ const Landing = () => {
         <div className="container mx-auto text-center max-w-5xl relative z-10">
           <motion.div initial="hidden" animate="visible" variants={stagger}>
             <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 mb-10">
-              <Zap className="text-primary" size={16} />
-              <span className="text-base font-semibold text-primary tracking-wide">Venue Launch Playbook</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+              <span className="text-base font-semibold text-primary tracking-wide">Live Partnership Portal</span>
             </motion.div>
 
-            <motion.h1 variants={fadeInUp} className="text-foreground mb-4" style={{ fontSize: "clamp(3rem, 7vw, 5rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.02em" }}>
-              Courtana × <span className="text-gradient-green">Peak</span>
+            <motion.h1 variants={fadeInUp} className="text-foreground mb-6" style={{ fontSize: "clamp(3rem, 7vw, 5rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.02em" }}>
+              Courtana × <span className="text-gradient-green">Peak Pickleball</span>
             </motion.h1>
 
-            <motion.p variants={fadeInUp} className="text-3xl md:text-4xl font-bold text-foreground/80 mb-6 tracking-tight">
-              Let's Launch Together.
-            </motion.p>
-
-            <motion.p variants={fadeInUp} className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-              An 8-week partnership to prove ROI, generate buzz, and turn your courts into a revenue engine — powered by{" "}
-              <a href="https://courtana.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline underline-offset-4 transition-colors">courtana.com</a>
+            <motion.p variants={fadeInUp} className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
+              Smart courts. Real data. Zero risk. Your 8-week launch plan starts April 7.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-5 justify-center">
@@ -116,13 +103,7 @@ const Landing = () => {
       {/* Stats Bar */}
       <section className="py-12 border-y border-border bg-card/30">
         <div className="container mx-auto px-4">
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-          >
+          <motion.div className="grid grid-cols-2 md:grid-cols-4 gap-6" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {stats.map((s) => (
               <motion.div key={s.label} variants={fadeInUp} className="glass rounded-2xl p-6 text-center glow-green">
                 <div className="text-4xl md:text-5xl font-extrabold text-gradient-green mb-2">{s.value}</div>
@@ -133,18 +114,36 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Value Props */}
+      {/* What We Heard */}
       <section className="py-24 px-4">
+        <div className="container mx-auto max-w-5xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+            <motion.div variants={fadeInUp} className="flex items-center gap-3 mb-10">
+              <MessageSquareQuote className="text-primary" size={28} />
+              <h2 className="text-2xl md:text-3xl font-extrabold text-foreground">What We Heard</h2>
+            </motion.div>
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+              {quotes.map((q, i) => (
+                <motion.div key={i} variants={fadeInUp} className="glass rounded-2xl p-6 border-l-4 border-l-primary">
+                  <p className="text-foreground text-base leading-relaxed italic">"{q}"</p>
+                </motion.div>
+              ))}
+            </div>
+            <motion.p variants={fadeInUp} className="text-sm text-muted-foreground">
+              From our conversation with <span className="text-foreground font-semibold">Chris Kepko</span>, Head Pro & GM
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Value Props */}
+      <section className="py-24 px-4 bg-card/50">
         <div className="container mx-auto max-w-6xl">
-          <motion.h2
-            className="text-foreground text-center mb-4 font-extrabold"
-            style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }}
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
-          >
-            Why Venues Partner With Us
+          <motion.h2 className="text-foreground text-center mb-4 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            Built for Peak
           </motion.h2>
           <motion.p className="text-lg text-muted-foreground text-center mb-14 max-w-xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-            Everything you need to launch, grow, and prove ROI — with zero upfront cost.
+            Every feature designed around your facility, your coaches, and your players.
           </motion.p>
           <motion.div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {valueProps.map((v) => (
@@ -161,17 +160,13 @@ const Landing = () => {
       </section>
 
       {/* 8-Week Timeline */}
-      <section id="plan" className="py-24 px-4 bg-card/50">
+      <section id="plan" className="py-24 px-4">
         <div className="container mx-auto max-w-4xl">
-          <motion.h2
-            className="text-foreground text-center mb-4 font-extrabold"
-            style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }}
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
-          >
+          <motion.h2 className="text-foreground text-center mb-4 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
             The 8-Week Playbook
           </motion.h2>
           <motion.p className="text-lg text-muted-foreground text-center mb-14 max-w-xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-            Each week builds on the last. By week 8, you'll have hard data on ROI and a clear path forward.
+            April 7 – June 1, 2026. Each week builds on the last. By week 8, you'll have hard data on ROI.
           </motion.p>
           <motion.div className="space-y-6 relative" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={stagger}>
             <div className="absolute left-7 top-0 bottom-0 w-px bg-border hidden md:block" />
@@ -183,97 +178,48 @@ const Landing = () => {
                   </div>
                 </div>
                 <div className="glass rounded-2xl p-8 flex-1 glow-green-hover transition-all duration-300">
-                  <div className="flex items-center gap-3 mb-3 flex-wrap">
+                  <div className="flex items-center gap-3 mb-1 flex-wrap">
                     <span className="md:hidden w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-bold text-sm flex-shrink-0">
                       {w.num}
                     </span>
                     <h3 className="text-lg font-bold text-foreground">{w.title}</h3>
-                    <span className={`text-sm px-4 py-1 rounded-full font-semibold ${w.color}`}>{w.focus}</span>
+                    <span className={`text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider ${w.color}`}>{w.focus}</span>
                   </div>
+                  <p className="text-xs text-muted-foreground mb-3 font-medium">{w.dates}</p>
                   <p className="text-base text-muted-foreground mb-4 leading-relaxed">{w.desc}</p>
                   <div className="flex flex-wrap gap-2">
                     {w.deliverables.map((d) => (
                       <span key={d} className="text-sm px-4 py-1.5 rounded-full bg-secondary text-muted-foreground font-medium">{d}</span>
                     ))}
                   </div>
-                  {weekPartners[w.num] && (
-                    <a
-                      href={weekPartners[w.num].url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 mt-4 text-xs px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-colors w-fit"
-                    >
-                      {weekPartners[w.num].label} <span className="font-bold">{weekPartners[w.num].partnerName}</span>
-                      <ExternalLink size={10} />
-                    </a>
-                  )}
                 </div>
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      </section>
-
-      {/* See It In Action */}
-      <section className="py-24 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div className="text-center mb-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-            <motion.h2 variants={fadeInUp} className="text-foreground mb-4 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }}>
-              See It In Action
-            </motion.h2>
-            <motion.p variants={fadeInUp} className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              From leaderboards to instant replay — here's what your players experience, and why they keep coming back.
-            </motion.p>
-          </motion.div>
-
-          {/* Feature descriptions */}
-          <motion.div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-            {featureMockups.map((f) => (
-              <motion.div key={f.title} variants={fadeInUp} className="glass rounded-2xl p-6 text-center glow-green-hover transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <f.icon className="text-primary" size={24} />
-                </div>
-                <h4 className="font-bold text-foreground text-base mb-2">{f.title}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Mockup grid */}
-          <div className="grid lg:grid-cols-2 gap-8">
-            <LeaderboardMockup />
-            <BadgesMockup />
-            <AIAnalysisMockup />
-            <ReplayMockup />
-          </div>
         </div>
       </section>
 
       {/* Economics */}
       <section className="py-24 px-4 bg-card/50">
         <div className="container mx-auto max-w-5xl">
-          <motion.h2
-            className="text-foreground text-center mb-14 font-extrabold"
-            style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }}
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}
-          >
+          <motion.h2 className="text-foreground text-center mb-14 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
             The Economics
           </motion.h2>
           <motion.div className="grid md:grid-cols-3 gap-8 mb-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {[
-              { label: "Your Cost", value: "$0", sub: "during pilot" },
-              { label: "Post-Pilot", value: "$95", sub: "/month" },
-              { label: "Revenue Lift", value: "$1,200+", sub: "/month", gold: true },
+              { label: "Peak's Investment During Pilot", value: "$0", sub: "8 weeks of smart court tech, events support, and marketing — on us." },
+              { label: "Post-Pilot: If You Expand", value: "$95/court/mo", sub: "16 courts = $1,520/mo. Less than 3% of your membership revenue." },
+              { label: "Projected Revenue Lift", value: "$2,000–4,000/mo", sub: "From premium court pricing, coaching, events, and walk-ins combined.", gold: true },
             ].map((m) => (
               <motion.div key={m.label} variants={fadeInUp} className={`glass rounded-2xl p-8 text-center ${m.gold ? "border-accent/30 glow-green" : ""}`}>
-                <div className="text-base text-muted-foreground mb-3 font-medium">{m.label}</div>
-                <div className={`font-extrabold mb-2 ${m.gold ? "text-gradient-gold" : "text-foreground"}`} style={{ fontSize: "clamp(2.5rem, 6vw, 3.5rem)" }}>{m.value}</div>
-                <div className="text-base text-muted-foreground">{m.sub}</div>
+                <div className="text-sm text-muted-foreground mb-3 font-medium">{m.label}</div>
+                <div className={`font-extrabold mb-3 ${m.gold ? "text-gradient-gold" : "text-foreground"}`} style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}>{m.value}</div>
+                <div className="text-sm text-muted-foreground leading-relaxed">{m.sub}</div>
               </motion.div>
             ))}
           </motion.div>
 
-          <motion.div className="glass rounded-2xl overflow-x-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <motion.div className="glass rounded-2xl overflow-x-auto mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
@@ -286,7 +232,7 @@ const Landing = () => {
               <tbody>
                 {revenueStreams.map((r) => (
                   <tr key={r.name} className="border-b border-border/50">
-                    <td className="p-5 text-foreground text-base font-medium">{r.name}</td>
+                    <td className="p-5 text-foreground text-sm font-medium">{r.name}</td>
                     <td className="p-5 text-right text-muted-foreground text-base">{r.conservative}</td>
                     <td className="p-5 text-right text-foreground text-base">{r.realistic}</td>
                     <td className="p-5 text-right text-primary font-bold text-base">{r.upside}</td>
@@ -294,34 +240,23 @@ const Landing = () => {
                 ))}
                 <tr className="bg-primary/5">
                   <td className="p-5 font-bold text-foreground text-lg">Total Monthly</td>
-                  <td className="p-5 text-right font-bold text-muted-foreground text-lg">$900</td>
-                  <td className="p-5 text-right font-bold text-foreground text-lg">$2,000</td>
-                  <td className="p-5 text-right font-bold text-primary text-lg">$3,200</td>
+                  <td className="p-5 text-right font-bold text-muted-foreground text-lg">$1,200</td>
+                  <td className="p-5 text-right font-bold text-foreground text-lg">$2,650</td>
+                  <td className="p-5 text-right font-bold text-primary text-lg">$4,100</td>
                 </tr>
               </tbody>
             </table>
           </motion.div>
-        </div>
-      </section>
 
-      {/* Part of Something Bigger */}
-      <section className="py-24 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <motion.div className="glass rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center gap-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
-            <div className="flex-shrink-0">
-              <EcosystemFlywheel compact />
-            </div>
-            <div className="text-center md:text-left">
-              <h2 className="text-2xl md:text-3xl font-extrabold text-foreground mb-3">Part of Something Bigger</h2>
-              <p className="text-base text-muted-foreground mb-6 leading-relaxed max-w-lg">
-                Courtana connects venues, coaches, equipment brands, and players into one ecosystem — each partner amplifying the others. See who's already building with us.
-              </p>
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-8 py-5 text-base font-bold glow-green gap-2" asChild>
-                <Link to="/partners">
-                  View the Ecosystem <ArrowRight size={18} />
-                </Link>
-              </Button>
-            </div>
+          {/* Zero Risk Box */}
+          <motion.div className="glass rounded-2xl p-8 border-primary/20 glow-green" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <h3 className="text-xl font-bold text-foreground mb-3 flex items-center gap-2">
+              <Zap className="text-primary" size={22} />
+              Zero Risk
+            </h3>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              4 courts. One camera each. Zero hardware cost. 2–3 months free. Then $95/court/month — which your first AI coaching clinic pays for twice over. Week 6 go/no-go review: if the numbers don't work, we pull everything. If they do, we expand to all 16. The only risk is not trying.
+            </p>
           </motion.div>
         </div>
       </section>
@@ -334,21 +269,23 @@ const Landing = () => {
         <div className="container mx-auto max-w-3xl text-center relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.h2 variants={fadeInUp} className="text-foreground mb-4 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }}>
-              Ready to turn your courts into a revenue engine?
+              Ready to launch?
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-              Join the venues already launching with Courtana. Zero risk, full support, real results.
+              April 7 is right around the corner. Let's make Peak the smartest courts in the state.
             </motion.p>
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-5 justify-center">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-10 py-6 text-lg font-bold glow-green gap-3">
-                <Mail size={20} />
-                Get Started
-                <ArrowRight size={20} />
+              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-10 py-6 text-lg font-bold glow-green gap-3" asChild>
+                <a href="mailto:bill@courtana.com">
+                  <Mail size={20} />
+                  Let's Go
+                  <ArrowRight size={20} />
+                </a>
               </Button>
               <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-10 py-6 text-lg font-bold gap-3" asChild>
                 <Link to="/dashboard">
                   <BarChart3 size={20} />
-                  See the Dashboard
+                  Pilot Dashboard
                 </Link>
               </Button>
             </motion.div>

@@ -10,11 +10,9 @@ const Footer = () => (
         </a>
       </div>
       <div className="flex gap-6">
-        <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+        <Link to="/" className="hover:text-primary transition-colors">The Plan</Link>
         <Link to="/events" className="hover:text-primary transition-colors">Events</Link>
-        <Link to="/schedule" className="hover:text-primary transition-colors">Schedule</Link>
         <Link to="/dashboard" className="hover:text-primary transition-colors">Dashboard</Link>
-        <Link to="/about" className="hover:text-primary transition-colors">About</Link>
       </div>
     </div>
   </footer>
