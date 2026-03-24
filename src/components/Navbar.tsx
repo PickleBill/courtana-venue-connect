@@ -8,6 +8,7 @@ const navLinks = [
   { label: "Schedule", href: "/schedule" },
   { label: "Dashboard", href: "/dashboard" },
   { label: "Discovery", href: "/discovery" },
+  { label: "Ecosystem", href: "/partners" },
   { label: "About", href: "/about" },
 ];
 
