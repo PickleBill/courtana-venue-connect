@@ -1,8 +1,10 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Camera, Megaphone, Brain, Gamepad2, Users, Radio,
-  ArrowRight, Mail, BarChart3, ExternalLink, Zap, MessageSquareQuote
+  ArrowRight, Mail, BarChart3, ExternalLink, Zap, MessageSquareQuote,
+  ChevronDown, CalendarDays
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -18,10 +20,10 @@ const stagger = {
 };
 
 const stats = [
-  { value: "4", label: "Smart Courts" },
+  { value: "6", label: "Smart Courts" },
+  { value: "10", label: "Cameras" },
   { value: "$0", label: "Upfront" },
   { value: "May 9", label: "Grand Opening" },
-  { value: "300", label: "Player Tournament" },
 ];
 
 const quotes = [
@@ -31,7 +33,7 @@ const quotes = [
 ];
 
 const valueProps = [
-  { icon: Camera, title: "Cameras on 4 Courts", desc: "One camera per court. Non-invasive install. Instant replay on court-side displays. Players see their highlights in real time." },
+  { icon: Camera, title: "Cameras on 6 Courts", desc: "10 cameras across 6 courts. Non-invasive install. Instant replay on court-side displays. Players see their highlights in real time." },
   { icon: Megaphone, title: "We Run Your Events", desc: "May 1 tournament? We put cameras on it. Grand opening? We live-broadcast it. Coaching clinics? We handle booking and payment." },
   { icon: Brain, title: "AI Coaching at $20–25", desc: "Your coaches' lessons, enhanced with AI video review. A new revenue tier between \"free advice\" and \"$80/hr lessons.\" 70% to coach, 20% to Peak, 10% to Courtana." },
   { icon: Gamepad2, title: "Gamification That Sticks", desc: "Badges, XP, leaderboards, trick shot recognition. The dopamine loop that makes players say \"one more game.\" This is how we beat the 1–2 month novelty dropoff." },
@@ -40,18 +42,90 @@ const valueProps = [
 ];
 
 const weeks = [
-  { num: 1, dates: "April 7–13", title: "Install + Coach Preview", focus: "LAUNCH", color: "bg-purple-500/20 text-purple-400", desc: "Install cameras on 4 courts. Configure displays. Run a private session for Chris and his 5 coaches — let them see AI analysis on their own games. Coaches become evangelists before players ever see it.", deliverables: ["Hardware installed", "Coach training session", "Baseline metrics captured", "Staff briefed"] },
-  { num: 2, dates: "April 14–20", title: "Courts Complete Celebration", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400", desc: "All 16 pickleball courts finish April 15. Mark the moment with a \"Courts Complete\" open house on the 4 Courtana courts. Free play, live highlights on the big screens, player account sign-ups. First taste of the gamification system.", deliverables: ["Open house event", "Player accounts created", "First highlights generated", "Social content captured"] },
-  { num: 3, dates: "April 21–27", title: "Coaching Clinic Series Launches", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400", desc: "First paid coaching clinic on Courtana courts. Coach-led drills with AI analysis delivered to each player within 24 hours. $25–40/player, 16 spots. Test the AI coaching revenue model Chris was excited about.", deliverables: ["Paid clinic ($400–640 revenue)", "AI analysis reports", "Coach feedback", "Revenue model validated"] },
-  { num: 4, dates: "April 28 – May 4", title: "TOURNAMENT WEEK — Spring Smash", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400", desc: "May 1–4 tournament targeting 300 players. Courtana cameras live on 4 courts — every match recorded, highlights auto-generated, leaderboard running on displays. This is the showcase moment. Every player leaves with a highlight reel and a reason to come back.", deliverables: ["300 players exposed to Courtana", "Highlight reels for all", "Tournament leaderboard", "Massive social content"] },
-  { num: 5, dates: "May 5–11", title: "GRAND OPENING — Dinks & Drinks", focus: "LAUNCH", color: "bg-purple-500/20 text-purple-400", desc: "May 9 grand opening with Chris Kelly. Live broadcast from championship courts. Courtana powers the on-screen experience — player stats, live leaderboard, instant replay on the big screens. Dinks & Drinks sponsored event. The facility's coming-out party, powered by smart court tech.", deliverables: ["Grand opening event", "Live broadcast", "Chris Kelly partnership content", "Membership spike tracking"] },
-  { num: 6, dates: "May 12–18", title: "Gamification Goes Live", focus: "DATA", color: "bg-cyan-500/20 text-cyan-400", desc: "Full gamification rollout: badges, XP points, achievement system, trick shot recognition, weekly leaderboard. This is the retention play — the thing that beats the \"novelty wears off after a month\" problem Chris identified. Players start earning status.", deliverables: ["Gamification system live", "Badge engagement tracking", "Leaderboard competition", "Repeat visit data"] },
-  { num: 7, dates: "May 19–25", title: "Matchmaking + Open Play Optimization", focus: "GROWTH", color: "bg-primary/20 text-primary", desc: "Turn on skill-based matchmaking and the open play display system. Real-time court status on screens — who's playing, skill level, spots open. \"Find Your Fourth\" feature goes live. Guest fees for non-members who come in through Courtana. Hotel guests from the Sheraton start discovering Peak through the live broadcast.", deliverables: ["Matchmaking active", "Open play displays", "Guest fee revenue", "Walk-in attribution"] },
-  { num: 8, dates: "May 26 – June 1", title: "The Numbers", focus: "REVIEW", color: "bg-red-500/20 text-red-400", desc: "End-of-pilot ROI review with Chris and the owner. Hard numbers: court utilization lift, revenue from events and AI coaching, player engagement metrics, highlights generated, new player accounts. The question isn't \"should we keep this?\" — it's \"how fast can we expand to all 16 courts?\"", deliverables: ["ROI dashboard presentation", "Expansion proposal", "16-court timeline", "Contract finalization"] },
+  {
+    num: 1, dates: "April 7–13", title: "Install + Coach Preview", focus: "LAUNCH", color: "bg-purple-500/20 text-purple-400",
+    desc: "Install 10 cameras across 6 courts. Configure displays. Run a private session for Chris and his 5 coaches — let them see AI analysis on their own games. Coaches become evangelists before players ever see it.",
+    deliverables: [
+      { text: "Hardware installed", link: null },
+      { text: "Coach training session", link: "/events/coaches-preview" },
+      { text: "Baseline metrics captured", link: "/dashboard" },
+      { text: "Staff briefed", link: null },
+    ],
+  },
+  {
+    num: 2, dates: "April 14–20", title: "Courts Complete Celebration", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400",
+    desc: "All 16 pickleball courts finish April 15. Mark the moment with a \"Courts Complete\" open house on the 6 Courtana courts. Free play, live highlights on the big screens, player account sign-ups. First taste of the gamification system.",
+    deliverables: [
+      { text: "Open house event", link: "/events" },
+      { text: "Player accounts created", link: "/dashboard" },
+      { text: "First highlights generated", link: null },
+      { text: "Social content captured", link: null },
+    ],
+  },
+  {
+    num: 3, dates: "April 21–27", title: "Coaching Clinic Series Launches", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400",
+    desc: "First paid coaching clinic on Courtana courts. Coach-led drills with AI analysis delivered to each player within 24 hours. $25–40/player, 16 spots. Test the AI coaching revenue model Chris was excited about.",
+    deliverables: [
+      { text: "Paid clinic ($400–640 revenue)", link: "/events/ai-coaching-clinic" },
+      { text: "AI analysis reports", link: null },
+      { text: "Coach feedback", link: "/discovery" },
+      { text: "Revenue model validated", link: "/dashboard" },
+    ],
+  },
+  {
+    num: 4, dates: "April 28 – May 4", title: "TOURNAMENT WEEK — Spring Smash", focus: "EVENTS", color: "bg-amber-500/20 text-amber-400",
+    desc: "May 1–4 tournament targeting 300 players. Courtana cameras live on 6 courts — every match recorded, highlights auto-generated, leaderboard running on displays. This is the showcase moment. Every player leaves with a highlight reel and a reason to come back.",
+    deliverables: [
+      { text: "300 players exposed to Courtana", link: "/events/spring-smash" },
+      { text: "Highlight reels for all", link: null },
+      { text: "Tournament leaderboard", link: "/dashboard" },
+      { text: "Massive social content", link: null },
+    ],
+  },
+  {
+    num: 5, dates: "May 5–11", title: "GRAND OPENING — Dinks & Drinks", focus: "LAUNCH", color: "bg-purple-500/20 text-purple-400",
+    desc: "May 9 grand opening with Chris Kelly. Live broadcast from championship courts. Courtana powers the on-screen experience — player stats, live leaderboard, instant replay on the big screens. Dinks & Drinks sponsored event. The facility's coming-out party, powered by smart court tech.",
+    deliverables: [
+      { text: "Grand opening event", link: "/events/grand-opening" },
+      { text: "Live broadcast", link: null },
+      { text: "Chris Kelly partnership content", link: null },
+      { text: "Membership spike tracking", link: "/dashboard" },
+    ],
+  },
+  {
+    num: 6, dates: "May 12–18", title: "Gamification Goes Live", focus: "DATA", color: "bg-cyan-500/20 text-cyan-400",
+    desc: "Full gamification rollout: badges, XP points, achievement system, trick shot recognition, weekly leaderboard. This is the retention play — the thing that beats the \"novelty wears off after a month\" problem Chris identified. Players start earning status.",
+    deliverables: [
+      { text: "Gamification system live", link: null },
+      { text: "Badge engagement tracking", link: "/dashboard" },
+      { text: "Leaderboard competition", link: null },
+      { text: "Repeat visit data", link: "/dashboard" },
+    ],
+  },
+  {
+    num: 7, dates: "May 19–25", title: "Matchmaking + Open Play Optimization", focus: "GROWTH", color: "bg-primary/20 text-primary",
+    desc: "Turn on skill-based matchmaking and the open play display system. Real-time court status on screens — who's playing, skill level, spots open. \"Find Your Fourth\" feature goes live. Guest fees for non-members who come in through Courtana. Hotel guests from the Sheraton start discovering Peak through the live broadcast.",
+    deliverables: [
+      { text: "Matchmaking active", link: null },
+      { text: "Open play displays", link: "/schedule" },
+      { text: "Guest fee revenue", link: "/dashboard" },
+      { text: "Walk-in attribution", link: "/discovery" },
+    ],
+  },
+  {
+    num: 8, dates: "May 26 – June 1", title: "The Numbers", focus: "REVIEW", color: "bg-red-500/20 text-red-400",
+    desc: "End-of-pilot ROI review with Chris and the owner. Hard numbers: court utilization lift, revenue from events and AI coaching, player engagement metrics, highlights generated, new player accounts. The question isn't \"should we keep this?\" — it's \"how fast can we expand to all 16 courts?\"",
+    deliverables: [
+      { text: "ROI dashboard presentation", link: "/dashboard" },
+      { text: "Expansion proposal", link: null },
+      { text: "16-court timeline", link: null },
+      { text: "Contract finalization", link: null },
+    ],
+  },
 ];
 
 const revenueStreams = [
-  { name: "Premium court pricing ($25→$30/hr on 4 courts)", conservative: "$300", realistic: "$600", upside: "$900" },
+  { name: "Premium court pricing ($25→$30/hr on 6 courts)", conservative: "$450", realistic: "$900", upside: "$1,350" },
   { name: "AI coaching reviews (5 coaches × $25 sessions)", conservative: "$500", realistic: "$1,000", upside: "$1,500" },
   { name: "Tournament/event revenue share", conservative: "$200", realistic: "$500", upside: "$800" },
   { name: "Walk-in/guest fees (Sheraton + highway visibility)", conservative: "$100", realistic: "$300", upside: "$500" },
@@ -59,6 +133,8 @@ const revenueStreams = [
 ];
 
 const Landing = () => {
+  const [expandedWeek, setExpandedWeek] = useState<number | null>(null);
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -168,33 +244,72 @@ const Landing = () => {
           <motion.p className="text-lg text-muted-foreground text-center mb-14 max-w-xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
             April 7 – June 1, 2026. Each week builds on the last. By week 8, you'll have hard data on ROI.
           </motion.p>
-          <motion.div className="space-y-6 relative" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={stagger}>
+          <motion.div className="space-y-4 relative" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={stagger}>
             <div className="absolute left-7 top-0 bottom-0 w-px bg-border hidden md:block" />
-            {weeks.map((w) => (
-              <motion.div key={w.num} variants={fadeInUp} className="flex gap-6">
-                <div className="hidden md:flex flex-col items-center">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-bold text-base flex-shrink-0 z-10">
-                    {w.num}
-                  </div>
-                </div>
-                <div className="glass rounded-2xl p-8 flex-1 glow-green-hover transition-all duration-300">
-                  <div className="flex items-center gap-3 mb-1 flex-wrap">
-                    <span className="md:hidden w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-bold text-sm flex-shrink-0">
+            {weeks.map((w) => {
+              const isOpen = expandedWeek === w.num;
+              return (
+                <motion.div key={w.num} variants={fadeInUp} className="flex gap-6">
+                  <div className="hidden md:flex flex-col items-center">
+                    <div className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-bold text-base flex-shrink-0 z-10">
                       {w.num}
-                    </span>
-                    <h3 className="text-lg font-bold text-foreground">{w.title}</h3>
-                    <span className={`text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider ${w.color}`}>{w.focus}</span>
+                    </div>
                   </div>
-                  <p className="text-xs text-muted-foreground mb-3 font-medium">{w.dates}</p>
-                  <p className="text-base text-muted-foreground mb-4 leading-relaxed">{w.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {w.deliverables.map((d) => (
-                      <span key={d} className="text-sm px-4 py-1.5 rounded-full bg-secondary text-muted-foreground font-medium">{d}</span>
-                    ))}
+                  <div
+                    className={`glass rounded-2xl flex-1 transition-all duration-300 cursor-pointer ${isOpen ? "ring-1 ring-primary/30" : "glow-green-hover hover:-translate-y-0.5"}`}
+                    onClick={() => setExpandedWeek(isOpen ? null : w.num)}
+                  >
+                    <div className="p-6 md:p-8">
+                      <div className="flex items-center gap-3 mb-1 flex-wrap">
+                        <span className="md:hidden w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-bold text-sm flex-shrink-0">
+                          {w.num}
+                        </span>
+                        <h3 className="text-lg font-bold text-foreground flex-1">{w.title}</h3>
+                        <span className={`text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider ${w.color}`}>{w.focus}</span>
+                        <ChevronDown size={18} className={`text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-2 font-medium">{w.dates}</p>
+
+                      <AnimatePresence>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                          >
+                            <p className="text-base text-muted-foreground mb-5 leading-relaxed">{w.desc}</p>
+                            <div className="flex flex-wrap gap-2">
+                              {w.deliverables.map((d) =>
+                                d.link ? (
+                                  <Link
+                                    key={d.text}
+                                    to={d.link}
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="text-sm px-4 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium hover:bg-primary/20 transition-colors"
+                                  >
+                                    {d.text} →
+                                  </Link>
+                                ) : (
+                                  <span key={d.text} className="text-sm px-4 py-1.5 rounded-full bg-secondary text-muted-foreground font-medium">
+                                    {d.text}
+                                  </span>
+                                )
+                              )}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      {!isOpen && (
+                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{w.desc}</p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </section>
@@ -208,8 +323,8 @@ const Landing = () => {
           <motion.div className="grid md:grid-cols-3 gap-8 mb-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {[
               { label: "Peak's Investment During Pilot", value: "$0", sub: "8 weeks of smart court tech, events support, and marketing — on us." },
-              { label: "Post-Pilot: If You Expand", value: "$95/court/mo", sub: "16 courts = $1,520/mo. Less than 3% of your membership revenue." },
-              { label: "Projected Revenue Lift", value: "$2,000–4,000/mo", sub: "From premium court pricing, coaching, events, and walk-ins combined.", gold: true },
+              { label: "Post-Pilot: If You Expand", value: "$95/court/mo", sub: "6 courts = $570/mo during pilot. 16 courts = $1,520/mo at full expansion." },
+              { label: "Projected Revenue Lift", value: "$2,000–4,500/mo", sub: "From premium court pricing, coaching, events, and walk-ins combined.", gold: true },
             ].map((m) => (
               <motion.div key={m.label} variants={fadeInUp} className={`glass rounded-2xl p-8 text-center ${m.gold ? "border-accent/30 glow-green" : ""}`}>
                 <div className="text-sm text-muted-foreground mb-3 font-medium">{m.label}</div>
@@ -240,9 +355,9 @@ const Landing = () => {
                 ))}
                 <tr className="bg-primary/5">
                   <td className="p-5 font-bold text-foreground text-lg">Total Monthly</td>
-                  <td className="p-5 text-right font-bold text-muted-foreground text-lg">$1,200</td>
-                  <td className="p-5 text-right font-bold text-foreground text-lg">$2,650</td>
-                  <td className="p-5 text-right font-bold text-primary text-lg">$4,100</td>
+                  <td className="p-5 text-right font-bold text-muted-foreground text-lg">$1,350</td>
+                  <td className="p-5 text-right font-bold text-foreground text-lg">$2,950</td>
+                  <td className="p-5 text-right font-bold text-primary text-lg">$4,550</td>
                 </tr>
               </tbody>
             </table>
@@ -255,7 +370,7 @@ const Landing = () => {
               Zero Risk
             </h3>
             <p className="text-base text-muted-foreground leading-relaxed">
-              4 courts. One camera each. Zero hardware cost. 2–3 months free. Then $95/court/month — which your first AI coaching clinic pays for twice over. Week 6 go/no-go review: if the numbers don't work, we pull everything. If they do, we expand to all 16. The only risk is not trying.
+              6 courts. 10 cameras. Zero hardware cost. 2–3 months free. Then $95/court/month — which your first AI coaching clinic pays for twice over. Week 6 go/no-go review: if the numbers don't work, we pull everything. If they do, we expand to all 16. The only risk is not trying.
             </p>
           </motion.div>
         </div>
@@ -274,18 +389,23 @@ const Landing = () => {
             <motion.p variants={fadeInUp} className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
               April 7 is right around the corner. Let's make Peak the smartest courts in the state.
             </motion.p>
-            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-5 justify-center">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-10 py-6 text-lg font-bold glow-green gap-3" asChild>
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
+              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-8 py-6 text-lg font-bold glow-green gap-3" asChild>
                 <a href="mailto:bill@courtana.com">
                   <Mail size={20} />
                   Let's Go
-                  <ArrowRight size={20} />
                 </a>
               </Button>
-              <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-10 py-6 text-lg font-bold gap-3" asChild>
+              <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-8 py-6 text-lg font-bold gap-3" asChild>
                 <Link to="/dashboard">
                   <BarChart3 size={20} />
                   Pilot Dashboard
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-8 py-6 text-lg font-bold gap-3" asChild>
+                <Link to="/schedule">
+                  <CalendarDays size={20} />
+                  View Calendar
                 </Link>
               </Button>
             </motion.div>

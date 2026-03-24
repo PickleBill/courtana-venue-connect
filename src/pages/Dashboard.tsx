@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Lock, Activity, DollarSign, Users, Camera, ExternalLink, Target } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Activity, DollarSign, Users, Camera, ExternalLink, Target } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -49,46 +46,6 @@ const statusColors: Record<string, string> = {
 };
 
 const Dashboard = () => {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem("peak-dash") === "true");
-  const [pw, setPw] = useState("");
-  const [pwError, setPwError] = useState(false);
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (pw === "peak2026") {
-      sessionStorage.setItem("peak-dash", "true");
-      setAuthed(true);
-    } else {
-      setPwError(true);
-    }
-  };
-
-  if (!authed) {
-    return (
-      <div className="min-h-screen">
-        <Navbar />
-        <div className="pt-24 pb-20 px-4 flex items-center justify-center min-h-screen">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-10 max-w-sm w-full text-center">
-            <Lock className="text-primary mx-auto mb-4" size={40} />
-            <h2 className="text-xl font-bold text-foreground mb-2">Peak Pickleball — Pilot Dashboard</h2>
-            <p className="text-sm text-muted-foreground mb-6">Enter your access code to view pilot data.</p>
-            <form onSubmit={handleLogin} className="space-y-4">
-              <Input
-                type="password"
-                placeholder="Access code"
-                value={pw}
-                onChange={(e) => { setPw(e.target.value); setPwError(false); }}
-                className={`bg-secondary border-border rounded-xl text-center ${pwError ? "border-destructive" : ""}`}
-              />
-              {pwError && <p className="text-xs text-destructive">Incorrect code. Try again.</p>}
-              <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl font-bold">Enter</Button>
-            </form>
-          </motion.div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen">
       <Navbar />

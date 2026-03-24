@@ -42,7 +42,7 @@ export const events: EventData[] = [
   {
     id: "spring-smash",
     title: "Peak Spring Smash Tournament",
-    description: "4-day tournament targeting 300 players. Courtana cameras live on 4 courts — every match recorded, highlights auto-generated, leaderboard on displays.",
+    description: "4-day tournament targeting 300 players. Courtana cameras live on 6 courts — every match recorded, highlights auto-generated, leaderboard on displays.",
     longDescription: [
       "The Peak Spring Smash is the showcase moment for Courtana × Peak. 300 players across 4 days of competitive pickleball with smart court technology on every championship court.",
       "Every match is recorded. Highlights are auto-generated. The live leaderboard runs on court-side displays. Every player leaves with a highlight reel and a reason to come back.",
