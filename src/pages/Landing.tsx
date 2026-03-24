@@ -305,6 +305,28 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Part of Something Bigger */}
+      <section className="py-24 px-4">
+        <div className="container mx-auto max-w-5xl">
+          <motion.div className="glass rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center gap-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <div className="flex-shrink-0">
+              <EcosystemFlywheel compact />
+            </div>
+            <div className="text-center md:text-left">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-foreground mb-3">Part of Something Bigger</h2>
+              <p className="text-base text-muted-foreground mb-6 leading-relaxed max-w-lg">
+                Courtana connects venues, coaches, equipment brands, and players into one ecosystem — each partner amplifying the others. See who's already building with us.
+              </p>
+              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-8 py-5 text-base font-bold glow-green gap-2" asChild>
+                <Link to="/partners">
+                  View the Ecosystem <ArrowRight size={18} />
+                </Link>
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-28 px-4 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
