@@ -8,6 +8,7 @@ import EventDetail from "./pages/EventDetail";
 import Schedule from "./pages/Schedule";
 import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
+import Discovery from "./pages/Discovery";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
