@@ -1,69 +1,58 @@
 
 
-# Plan: Rebrand to Courtana + Add Dashboard, Mockups, and Creative Links
+# Part 1: Landing Page Visual Overhaul
 
-## Summary
-Rename all "Cortana" references to "Courtana" throughout the app, add a new `/dashboard` page with creative ROI analytics and engagement mockups, embed visual mockups of Courtana's features (leaderboards, badges, AI analysis, instant replay), and add courtana.com links in creative placements.
+The user wants two things done **sequentially** -- first the landing page redesign, then the Venue Opportunity Dashboard. This plan covers **Part 1 only**: making the landing page (`/`) visually stunning with a witty tagline.
 
-## Changes
+## What Changes
 
-### 1. Global Rebrand: Cortana → Courtana
-Update every file that references "Cortana" (Navbar, Footer, Landing, Events, EventDetail, About, Schedule, index.html) to use "Courtana" spelling consistently. Change "Cortana Connect" to "Courtana Connect" in the navbar logo.
+### Landing Page (`src/pages/Landing.tsx`) -- Full Visual Redesign
 
-### 2. New Dashboard Page (`/dashboard`)
-Add a new route and page at `/dashboard` with a creative, data-rich layout showcasing what a venue partner would see:
+**Hero Section -- Complete Rework:**
+- Massive headline: "Courtana × Peak" stays but gets a dramatic gradient treatment
+- New tagline: **"Let's Launch Together."** -- large, confident, not buried in small text
+- Remove the tiny badge pill with the "courtana.com experience" text -- replace with a bold, clean presentation
+- Hero gets a subtle radial gradient background glow behind the headline (green/teal)
+- CTAs get larger, more prominent styling with proper spacing
+- Add a subtle animated background element (gradient orbs or mesh)
 
-- **Header**: "Courtana × Peak — Pilot Dashboard" with a "Powered by courtana.com" link
-- **KPI Row** (animated counters): Total Revenue ($4,280), Court Utilization (67%), Active Players (142), Events Run (12)
-- **Revenue Chart**: Recharts area chart showing 8-week revenue trend with gradient fill, comparing Courtana events vs baseline
-- **Court Utilization Heatmap**: Visual grid showing utilization by hour/day with color intensity (using the existing color system)
-- **Event Performance Table**: List of past events with revenue, attendance rate, repeat player %, and ROI score
-- **Engagement Metrics Section**: Cards showing leaderboard participation rate, badges earned, average session frequency
-- **Player Growth Chart**: Line chart showing cumulative player signups over the pilot
+**Stats Bar -- Make it pop:**
+- Larger numbers, bolder presentation
+- Add subtle card backgrounds to each stat instead of bare text
+- Green glow accent on the stat values
 
-### 3. Feature Mockup Components
-Create visual mockup cards embedded on the Landing page (new section before the CTA) and the About page:
+**Value Props -- Upgrade cards:**
+- Larger icons (32-36px instead of 24px)
+- Bigger titles (text-xl instead of text-lg)  
+- More padding, more breathing room
+- Description text bumped to base size (not text-sm)
 
-- **Leaderboard Mockup**: A card styled like the uploaded screenshot — ranked player list with XP, levels (Gold/Silver/Bronze), rank badges, and a progress bar. Use generated placeholder avatars (colored circles with initials) and fictional player names. Gold/amber accents for top ranks.
-- **Badges/Achievements Mockup**: Grid of earned badge cards (e.g., "Steady Eddie", "One-Handed Backhand", "Kitchen King", "Rally Master") with shield-style icons in purple/teal color coding
-- **AI Analysis Mockup**: Card showing a court diagram with shot placement dots, a stats panel (shot speed, spin rate, accuracy %), and an "AI Analyze" button styled in the brand gradient
-- **Instant Replay Mockup**: Card with a simulated video thumbnail (court gradient with play button overlay), timestamp, and thumbnail strip
+**"See It In Action" Section:**
+- Feature description cards: bump text sizes, remove cramped text-xs descriptions
+- Better spacing between the feature cards and mockup grid
 
-### 4. Creative courtana.com Links
-Place courtana.com links throughout the app in engaging ways:
-- **Navbar**: Small "by courtana.com" subtext under logo (links externally)
-- **Footer**: "Powered by Courtana" with logo mark linking to courtana.com
-- **Landing hero**: "A courtana.com experience" badge near the subtitle
-- **Dashboard**: "Powered by Courtana Smart Court Technology — courtana.com" banner
-- **Event detail pages**: "Smart court stats powered by courtana.com" in the booking card
-- **About page**: "Learn more at courtana.com" CTA button
+**Timeline Section:**
+- Cleaner spacing, larger week titles
+- Focus tags more prominent
 
-### 5. Add Dashboard to Navigation
-Add "Dashboard" link to navbar (between Schedule and About) and footer.
+**Economics Section:**
+- Metric cards: larger value text (text-5xl)
+- Table: slightly larger text, more padding
 
-### 6. Landing Page Enhancements
-Add a new "See It In Action" section between the timeline and economics sections showing the feature mockups (leaderboard, badges, AI analysis, replay) in a 2x2 grid with descriptive text about how each drives engagement and revenue.
+**CTA Section:**
+- Bolder headline
+- Bigger buttons with more visual weight
 
-## Technical Details
+### Files Modified
+- `src/pages/Landing.tsx` -- complete visual upgrade (sizing, spacing, hero redesign, tagline)
+- `src/index.css` -- possibly add a hero-gradient utility or background glow class
 
-**Files to create:**
-- `src/pages/Dashboard.tsx` — full dashboard page with Recharts charts, KPI cards, and mockup sections
-- `src/components/mockups/LeaderboardMockup.tsx` — visual leaderboard component
-- `src/components/mockups/BadgesMockup.tsx` — badge grid component
-- `src/components/mockups/AIAnalysisMockup.tsx` — AI analysis card
-- `src/components/mockups/ReplayMockup.tsx` — instant replay card
+No new files, no new routes. Pure visual polish.
 
-**Files to modify:**
-- `src/App.tsx` — add `/dashboard` route
-- `src/components/Navbar.tsx` — rename to Courtana, add Dashboard link, add courtana.com subtext
-- `src/components/Footer.tsx` — rename, add courtana.com link
-- `src/pages/Landing.tsx` — rename all, add "See It In Action" section with mockups
-- `src/pages/About.tsx` — rename, add courtana.com CTA, embed mockups in tech section
-- `src/pages/Events.tsx` — rename references
-- `src/pages/EventDetail.tsx` — rename, add courtana.com trust line
-- `src/pages/Schedule.tsx` — rename references
-- `src/data/events.ts` — rename references in descriptions
-- `index.html` — rename meta tags
-
-**Libraries used:** Recharts (already available via chart.tsx), framer-motion, lucide-react — no new dependencies needed.
+## Technical Approach
+- Increase all text sizes: hero text stays clamp-based but larger, body sections use text-base/text-lg instead of text-sm/text-xs
+- Add radial gradient backgrounds using Tailwind arbitrary values or inline styles
+- Increase card padding from p-4/p-6 to p-6/p-8
+- Ensure mobile remains clean at the larger sizes
+- Tagline "Let's Launch Together." placed prominently below the main headline in text-2xl or text-3xl with a subtle gradient or accent color
 
