@@ -5,6 +5,8 @@ import {
   ArrowRight, Mail, Trophy, Shield, Brain, Play, Zap, ExternalLink
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { weekPartners } from "@/data/partners";
+import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LeaderboardMockup from "@/components/mockups/LeaderboardMockup";
