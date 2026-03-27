@@ -73,7 +73,7 @@ const Dashboard = () => {
           {/* KPIs */}
           <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8" initial="hidden" animate="visible" variants={stagger}>
             {[
-              { label: "Sessions Recorded", value: "0", icon: Camera, sub: "Pilot starts April 7" },
+              { label: "Sessions Recorded", value: "0", icon: Camera, sub: "Pilot starts April 7", avatar: "https://cdn.courtana.com/files/production/u/a3c7e1d0-4b2f-4a8e-9f1c-6d5e8b3a2c1f/7d873c1f-ec81-487a-8fe7-97bdb94a6397.png" },
               { label: "Highlights Generated", value: "0", icon: Activity, sub: "Pilot starts April 7" },
               { label: "Event Revenue", value: "$0", icon: DollarSign, sub: "Pilot starts April 7", accent: true },
               { label: "Player Accounts", value: "0", icon: Users, sub: "Pilot starts April 7" },
