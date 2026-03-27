@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {
   Camera, Megaphone, Brain, Gamepad2, Users, Radio,
   ArrowRight, Mail, BarChart3, ExternalLink, Zap, MessageSquareQuote,
-  ChevronDown, CalendarDays
+  ChevronDown, Handshake
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -21,12 +21,13 @@ const stagger = {
 
 const stats = [
   { value: "6", label: "Smart Courts" },
-  { value: "10", label: "Cameras" },
-  { value: "$0", label: "Upfront" },
-  { value: "May 9", label: "Grand Opening" },
+  { value: "$0", label: "Upfront Cost" },
+  { value: "8", label: "Week Pilot" },
+  { value: "19", label: "Total Courts" },
 ];
 
 const quotes = [
+  "The biggest problem with tech tools is they lose novelty after a month. If you can keep them coming back — badges, highlights, leaderboards — that changes everything.",
   "I need to justify every dollar to an owner who invested $1.5 million in this facility.",
   "The biggest problem with tech tools is they lose novelty after a month. Gamification and badges — that's what keeps people coming back.",
   "If you can show me the numbers after the pilot, I'll expand to all 16 courts.",
@@ -158,7 +159,7 @@ const Landing = () => {
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-              Smart courts. Real data. Zero risk. Your 8-week launch plan starts April 7.
+              Smart courts. Real data. Zero upfront cost. Your 8-week pilot starts April 7.
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-5 justify-center">
@@ -198,7 +199,7 @@ const Landing = () => {
               <MessageSquareQuote className="text-primary" size={28} />
               <h2 className="text-2xl md:text-3xl font-extrabold text-foreground">What We Heard</h2>
             </motion.div>
-            <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
               {quotes.map((q, i) => (
                 <motion.div key={i} variants={fadeInUp} className="glass rounded-2xl p-6 border-l-4 border-l-primary">
                   <p className="text-foreground text-base leading-relaxed italic">"{q}"</p>
@@ -323,7 +324,7 @@ const Landing = () => {
           <motion.div className="grid md:grid-cols-3 gap-8 mb-14" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {[
               { label: "Peak's Investment During Pilot", value: "$0", sub: "8 weeks of smart court tech, events support, and marketing — on us." },
-              { label: "Post-Pilot: If You Expand", value: "$95/court/mo", sub: "6 courts = $570/mo during pilot. 16 courts = $1,520/mo at full expansion." },
+              { label: "Post-Pilot: If You Expand", value: "$95/court/mo", sub: "6 courts = $570/mo during pilot. 19 courts = $1,805/mo at full expansion." },
               { label: "Projected Revenue Lift", value: "$2,000–4,500/mo", sub: "From premium court pricing, coaching, events, and walk-ins combined.", gold: true },
             ].map((m) => (
               <motion.div key={m.label} variants={fadeInUp} className={`glass rounded-2xl p-8 text-center ${m.gold ? "border-accent/30 glow-green" : ""}`}>
@@ -370,8 +371,129 @@ const Landing = () => {
               Zero Risk
             </h3>
             <p className="text-base text-muted-foreground leading-relaxed">
-              6 courts. 10 cameras. Zero hardware cost. 2–3 months free. Then $95/court/month — which your first AI coaching clinic pays for twice over. Week 6 go/no-go review: if the numbers don't work, we pull everything. If they do, we expand to all 16. The only risk is not trying.
+              Start with 6 courts. Zero hardware cost. No subscription during the 8-week pilot. After that, $570/month — your first AI coaching clinic makes that back in a single session.
             </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Partnership Commitments */}
+      <section className="py-24 px-4">
+        <div className="container mx-auto max-w-5xl">
+          <motion.h2 className="text-foreground text-center mb-4 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            Partnership Commitments
+          </motion.h2>
+          <motion.p className="text-lg text-muted-foreground text-center mb-14 max-w-xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            What each side brings to the table.
+          </motion.p>
+          <motion.div className="grid md:grid-cols-2 gap-8 mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+            {/* Courtana Invests */}
+            <motion.div variants={fadeInUp} className="glass rounded-2xl p-8 border-l-4 border-l-primary">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Handshake className="text-primary" size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-foreground">What Courtana Invests</h3>
+              </div>
+              <ul className="space-y-4">
+                {[
+                  "Hardware for 6 smart courts — shipped pre-configured, $0 to Peak",
+                  "Full platform: AI analysis, highlights, gamification, player app",
+                  "Co-promotion of Peak events through the Courtana network",
+                  "Social content creation (2×/week during pilot)",
+                  "Weekly performance dashboard with real-time data",
+                  "Dedicated partner contact — direct line, not a ticket queue",
+                  "Ongoing software updates and remote support",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                    <span className="text-base text-muted-foreground leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Peak Invests */}
+            <motion.div variants={fadeInUp} className="glass rounded-2xl p-8 border-l-4 border-l-accent">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <Users className="text-accent" size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-foreground">What Peak Invests</h3>
+              </div>
+              <ul className="space-y-4">
+                {[
+                  "Your team installs cameras (we ship, you mount, we configure remotely)",
+                  "1-hour coaching staff session — all 5 coaches, Week 1",
+                  "One launch email to your 250 members (we'll draft it)",
+                  "\"Powered by Courtana\" signage on smart courts",
+                  "Courtana featured in May 9 grand opening marketing",
+                  "Bi-weekly product feedback — honest, structured, invaluable",
+                  "Coaches provide regular feedback on AI tools and workflows",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
+                    <span className="text-base text-muted-foreground leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </motion.div>
+
+          <motion.p className="text-center text-muted-foreground italic text-base max-w-2xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            "This is a development partnership, not a software purchase. We invest together. We build together. We win together."
+          </motion.p>
+        </div>
+      </section>
+
+      {/* What Happens Next */}
+      <section className="py-24 px-4 bg-card/50">
+        <div className="container mx-auto max-w-5xl">
+          <motion.h2 className="text-foreground text-center mb-4 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            The Path Forward
+          </motion.h2>
+          <motion.p className="text-lg text-muted-foreground text-center mb-14 max-w-xl mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            A clear progression from pilot to partnership.
+          </motion.p>
+          <motion.div className="grid md:grid-cols-3 gap-0 md:gap-0 relative" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+            {/* Connecting line */}
+            <div className="hidden md:block absolute top-1/2 left-[16.67%] right-[16.67%] h-px bg-border -translate-y-1/2 z-0" />
+
+            {[
+              {
+                num: 1,
+                badge: "8 WEEKS",
+                title: "The Pilot",
+                desc: "6 smart courts. Real events. Real data. We fund the hardware and platform. You bring the facility and the community. At Week 8, the numbers tell the story.",
+              },
+              {
+                num: 2,
+                badge: "WEEK 8",
+                title: "The Decision",
+                desc: "We review success metrics together — court utilization, player engagement, platform revenue. If the data says go, we expand. If not, we pull the hardware and part as friends. Commit before Week 6 and your first 2 months of subscription are free.",
+              },
+              {
+                num: 3,
+                badge: "ONGOING",
+                title: "The Partnership",
+                desc: "Expand to more courts. Revenue shifts to Peak. New features ship to you first. Your feedback shapes the product. Your network grows the ecosystem. Peak becomes the facility everyone else measures against.",
+              },
+            ].map((step) => (
+              <motion.div key={step.num} variants={fadeInUp} className="relative z-10 p-4">
+                <div className="glass rounded-2xl p-8 text-center h-full flex flex-col">
+                  <div className="inline-flex items-center justify-center mb-4">
+                    <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-bold uppercase tracking-wider border border-primary/20">
+                      {step.badge}
+                    </span>
+                  </div>
+                  <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-bold text-lg mx-auto mb-4">
+                    {step.num}
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-4">{step.title}</h3>
+                  <p className="text-base text-muted-foreground leading-relaxed flex-1">{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
@@ -384,28 +506,28 @@ const Landing = () => {
         <div className="container mx-auto max-w-3xl text-center relative z-10">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.h2 variants={fadeInUp} className="text-foreground mb-4 font-extrabold" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", lineHeight: 1.15 }}>
-              Ready to launch?
+              Let's build something worth talking about.
             </motion.h2>
             <motion.p variants={fadeInUp} className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-              April 7 is right around the corner. Let's make Peak the smartest courts in the state.
+              The pilot starts the moment you say yes. Hardware installed in days. First event within the week.
             </motion.p>
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
               <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-8 py-6 text-lg font-bold glow-green gap-3" asChild>
-                <a href="mailto:bill@courtana.com">
+                <a href="mailto:bill@courtana.com?subject=Peak%20Pickleball%20Partnership">
                   <Mail size={20} />
-                  Let's Go
+                  Start the Conversation
                 </a>
+              </Button>
+              <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-8 py-6 text-lg font-bold gap-3" asChild>
+                <Link to="/partners">
+                  <ExternalLink size={20} />
+                  Explore the Ecosystem
+                </Link>
               </Button>
               <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-8 py-6 text-lg font-bold gap-3" asChild>
                 <Link to="/dashboard">
                   <BarChart3 size={20} />
-                  Pilot Dashboard
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-8 py-6 text-lg font-bold gap-3" asChild>
-                <Link to="/schedule">
-                  <CalendarDays size={20} />
-                  View Calendar
+                  View the Dashboard
                 </Link>
               </Button>
             </motion.div>
