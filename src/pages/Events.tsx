@@ -76,7 +76,7 @@ const Events = () => {
                     <span className="flex items-center gap-1.5"><Users size={16} /> {featured.spots} spots</span>
                     <span className="flex items-center gap-1.5"><DollarSign size={16} /> ${featured.price} general admission</span>
                   </div>
-                  <Button onClick={() => handleBook(featured.id)} className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-8 py-5 text-base font-bold">
+                  <Button onClick={() => handleBook(featured.title)} className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl px-8 py-5 text-base font-bold">
                     Get Your Spot
                   </Button>
                 </div>
