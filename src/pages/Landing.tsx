@@ -9,6 +9,9 @@ import {
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import HighlightReel from "@/components/landing/HighlightReel";
+import PlayerProfile from "@/components/landing/PlayerProfile";
+import LeaderboardPreview from "@/components/landing/LeaderboardPreview";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -34,13 +37,33 @@ const quotes = [
 ];
 
 const valueProps = [
-  { icon: Camera, title: "Cameras on 6 Courts", desc: "10 cameras across 6 courts. Non-invasive install. Instant replay on court-side displays. Players see their highlights in real time." },
+  {
+    icon: Camera, title: "Cameras on 6 Courts",
+    desc: "10 cameras across 6 courts. Non-invasive install. Instant replay on court-side displays. Players see their highlights in real time.",
+    thumbnailAccent: "https://cdn.courtana.com/files/production/u/faad1826-b310-4602-89d2-cc8eea8444f6/15b095b5-8595-42b6-b753-f96b81b0ee7b.jpeg",
+  },
   { icon: Megaphone, title: "We Run Your Events", desc: "May 1 tournament? We put cameras on it. Grand opening? We live-broadcast it. Coaching clinics? We handle booking and payment." },
   { icon: Brain, title: "AI Coaching at $20–25", desc: "Your coaches' lessons, enhanced with AI video review. A new revenue tier between \"free advice\" and \"$80/hr lessons.\" 70% to coach, 20% to Peak, 10% to Courtana." },
-  { icon: Gamepad2, title: "Gamification That Sticks", desc: "Badges, XP, leaderboards, trick shot recognition. The dopamine loop that makes players say \"one more game.\" This is how we beat the 1–2 month novelty dropoff." },
-  { icon: Users, title: "Open Play, Solved", desc: "Real-time court displays showing who's playing, how many spots are open, skill levels on court. No more \"who's in?\" text chains. Players scan in and Courtana matches them." },
+  {
+    icon: Gamepad2, title: "Gamification That Sticks",
+    desc: "Badges, XP, leaderboards, trick shot recognition. The dopamine loop that makes players say \"one more game.\" This is how we beat the 1–2 month novelty dropoff.",
+    badgeImages: [
+      "https://cdn.courtana.com/files/production/u/eefe1c2b-6708-4f79-ba0f-897f04974e94/f444e4f8-1cc2-4312-a1f8-c68291e6fa98.png",
+      "https://cdn.courtana.com/files/production/u/eefe1c2b-6708-4f79-ba0f-897f04974e94/77ed9a3e-7bd8-49a3-878a-5e58b2b8e93b.png",
+      "https://cdn.courtana.com/files/production/u/eefe1c2b-6708-4f79-ba0f-897f04974e94/c7e8d0e0-4680-4ecc-8aef-76e7e973e3e2.png",
+    ],
+  },
+  {
+    icon: Users, title: "Open Play, Solved",
+    desc: "Real-time court displays showing who's playing, how many spots are open, skill levels on court. No more \"who's in?\" text chains. Players scan in and Courtana matches them.",
+    avatarStack: [
+      "https://cdn.courtana.com/files/production/u/a3c7e1d0-4b2f-4a8e-9f1c-6d5e8b3a2c1f/11740d00-4fbe-4d41-83cb-465da44fa70c.png",
+      "https://cdn.courtana.com/files/production/u/a3c7e1d0-4b2f-4a8e-9f1c-6d5e8b3a2c1f/3136bdb5-2954-4ac3-8c17-b2a7806bb753.png",
+      "https://cdn.courtana.com/files/production/u/a3c7e1d0-4b2f-4a8e-9f1c-6d5e8b3a2c1f/adb5f83a-74de-401a-8608-8d1d995a27a1.png",
+    ],
+  },
   { icon: Radio, title: "Live Broadcast to the Highway", desc: "Peak is 30 seconds from a Sheraton and visible from the highway. Live streams from championship courts turn cameras into a marketing billboard." },
-];
+] as const;
 
 const weeks = [
   {
@@ -224,17 +247,45 @@ const Landing = () => {
           </motion.p>
           <motion.div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             {valueProps.map((v) => (
-              <motion.div key={v.title} variants={fadeInUp} className="glass rounded-2xl p-8 glow-green-hover transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
-                  <v.icon className="text-primary" size={28} />
+              <motion.div key={v.title} variants={fadeInUp} className="glass rounded-2xl p-8 glow-green-hover transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+                {"thumbnailAccent" in v && v.thumbnailAccent && (
+                  <img src={v.thumbnailAccent} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.07]" />
+                )}
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
+                    <v.icon className="text-primary" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">{v.title}</h3>
+                  <p className="text-base text-muted-foreground leading-relaxed">{v.desc}</p>
+                  {"badgeImages" in v && v.badgeImages && (
+                    <div className="flex gap-2 mt-4">
+                      {v.badgeImages.map((url, i) => (
+                        <img key={i} src={url} alt="badge" className="w-6 h-6 rounded" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                      ))}
+                    </div>
+                  )}
+                  {"avatarStack" in v && v.avatarStack && (
+                    <div className="flex -space-x-2 mt-4">
+                      {v.avatarStack.map((url, i) => (
+                        <img key={i} src={url} alt="player" className="w-6 h-6 rounded-full border border-border" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">{v.title}</h3>
-                <p className="text-base text-muted-foreground leading-relaxed">{v.desc}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
+
+      {/* See It in Action */}
+      <HighlightReel />
+
+      {/* What Players See */}
+      <PlayerProfile />
+
+      {/* Live Leaderboard */}
+      <LeaderboardPreview />
 
       {/* 8-Week Timeline */}
       <section id="plan" className="py-24 px-4">
