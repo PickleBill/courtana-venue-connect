@@ -517,12 +517,6 @@ const Landing = () => {
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-8 py-6 text-lg font-bold gap-3" asChild>
-                <Link to="/partners">
-                  <ExternalLink size={20} />
-                  Explore the Ecosystem
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-secondary rounded-xl px-8 py-6 text-lg font-bold gap-3" asChild>
                 <Link to="/dashboard">
                   <BarChart3 size={20} />
                   View the Dashboard
