@@ -1,66 +1,114 @@
+# Plan: Connect Pickle DaaS Production Data to Courtana Connect
+
+## The Situation
+
+You have two systems that need to talk to each other:
+
+```text
+┌─────────────────────────────┐     ┌──────────────────────────────┐
+│  PICKLE DAAS (GitHub)       │     │  COURTANA CONNECT (Lovable)  │
+│                             │     │                              │
+│  Claude Code pipeline       │     │  React/TypeScript app        │
+│  Auto-ingest every few hrs  │     │  Venue partnership portal    │
+│  3,689 clips analyzed       │     │  Hardcoded seed data         │
+│  153 brands classified      │     │  Static charts               │
+│  90 player profiles         │     │                              │
+│  gh-pages JSON API ────────────►  │  Currently: no connection    │
+│  10 endpoints, live data    │     │                              │
+└─────────────────────────────┘     └──────────────────────────────┘
+```
+
+**The bridge is already built.** Your gh-pages branch publishes a clean REST-like JSON API at `picklebill.github.io/pickle-daas-data/api/`. It's public, CORS-friendly, and auto-updated by your Claude Code pipeline. We just need to consume it.
+
+## What I Recommend (3 phases)
+
+### Phase 1: Direct Fetch from gh-pages API (do now, no setup needed)
+
+Create a data service layer in this Lovable app that fetches from your live gh-pages API. Wire it into the Dashboard and a new "Intelligence" page.
+
+**Files to create/modify:**
+
+- `src/lib/pickleApi.ts` -- fetch wrapper with types for all 10 API endpoints
+- `src/pages/Dashboard.tsx` -- replace hardcoded KPIs with live data (clip count, brand count, player count, coverage %)
+- New page: `src/pages/Intelligence.tsx` -- brand leaderboard, top clips with thumbnails/video, player profiles with radar charts
+- `src/App.tsx` -- add `/intelligence` route
+
+**Data available immediately (no auth needed):**
 
 
-# Plan: Peak Pickleball Content Refinements + New Sections
+| Endpoint                    | What it gives you                                           | Use in Lovable               |
+| --------------------------- | ----------------------------------------------------------- | ---------------------------- |
+| `api/clips.json`            | Top clips with video URLs, thumbnails, quality/viral scores | Highlight reel, clip browser |
+| `api/brands.json`           | 153 brands, market share, skill correlations                | Brand intelligence dashboard |
+| `api/players.json`          | 90 players, skill radars, archetypes, avatars               | Player profiles, leaderboard |
+| `api/coaching.json`         | Coaching insights from analysis                             | AI coaching demo content     |
+| `api/feed.json`             | Activity feed                                               | Live feed widget             |
+| `api/sponsors.json`         | Sponsor detection data                                      | Sponsor/venue intelligence   |
+| `api/player-equipment.json` | Equipment per player                                        | Equipment analytics          |
+| `api/venue-tech.json`       | Venue technology data                                       | Venue intelligence           |
+| `api/ideas.json`            | Research findings                                           | Idea lab integration         |
 
-## Summary
-Seven targeted changes to Landing.tsx, Dashboard.tsx, and Footer.tsx. No new files, no structural/routing changes. Content updates + two new sections inserted before the CTA.
 
----
+### Phase 2: Supabase as the Real-Time Layer (next step)
 
-## Changes by File
+Connect Lovable Cloud (Supabase) to this project. Your GitHub repo already has `push-to-supabase.py` and schema. This enables:
 
-### `src/pages/Landing.tsx`
+- Write operations (event bookings, player sign-ups)
+- Auth (real partner login for Chris Kepko)
+- Real-time subscriptions (live dashboard updates)
+- Edge functions (Courtana API proxy already in your repo)
 
-**CHANGE 1 — No "35 courts" found anywhere.** Already says 19/16 where needed. No action.
+**What you'd need to do:** Enable Lovable Cloud on this project, then I can create tables and edge functions directly.
 
-**CHANGE 2 — Hero refinements (lines 22-27, 160-161)**
-- Stats array → `[{6, "Smart Courts"}, {$0, "Upfront Cost"}, {8, "Week Pilot"}, {19, "Total Courts"}]`
-- Subheadline → "Smart courts. Real data. Zero upfront cost. Your 8-week pilot starts April 7."
+### Phase 3: Bi-Directional Sync
 
-**CHANGE 3 — Quotes (lines 29-33, 208-209)**
-- Add gamification quote as FIRST item: "The biggest problem with tech tools is they lose novelty after a month. If you can keep them coming back — badges, highlights, leaderboards — that changes everything."
-- Keep existing 3 quotes after it (now 4 total)
-- Grid changes from `md:grid-cols-3` to `md:grid-cols-2` to accommodate 4 quotes cleanly
+- Claude Code pipeline pushes to Supabase (you already have the script)
+- Lovable app reads from Supabase for real-time, gh-pages as fallback
+- Edge function proxies to Courtana API for live court data
+- Dashboard becomes truly live: court utilization, active sessions, highlight generation in real-time
 
-**CHANGE 4 — Partnership Commitments section**
-Insert new section between Economics (ends ~line 376) and CTA (starts ~line 379).
-- Two-column glass cards stacking on mobile
-- Left: green left border — "What Courtana Invests" with 7 list items (Handshake icon)
-- Right: amber left border — "What Peak Invests" with 7 list items (Users icon)
-- Centered italic text below: "This is a development partnership, not a software purchase..."
-- Import `Handshake` from lucide-react
+## Phase 1 Implementation Details
 
-**CHANGE 5 — "What Happens Next" section**
-Insert after Partnership Commitments, before CTA.
-- Three-step horizontal flow (vertical on mobile) with number badges
-- Step 1: "The Pilot" (8 WEEKS badge)
-- Step 2: "The Decision" (WEEK 8 badge) — includes early commit incentive
-- Step 3: "The Partnership" (ONGOING badge)
-- Connecting arrow/line between steps via CSS borders
+### New file: `src/lib/pickleApi.ts`
 
-**CHANGE 6 — Economics updates (lines 324-374)**
-- KPI card 2: sub text → "6 courts = $570/mo during pilot. 19 courts = $1,805/mo at full expansion."
-- Zero Risk box: "Start with 6 courts. Zero hardware cost. No subscription during the 8-week pilot. After that, $570/month — your first AI coaching clinic makes that back in a single session."
+- Base URL: `https://picklebill.github.io/pickle-daas-data/api/`
+- TypeScript interfaces for each endpoint's response shape
+- React Query hooks (`useClips`, `useBrands`, `usePlayers`, etc.) for caching and loading states
+- 5-minute stale time (data updates every few hours anyway)
 
-**CHANGE 7 — CTA section (lines 386-417)**
-- Headline → "Let's build something worth talking about."
-- Subtitle → "The pilot starts the moment you say yes. Hardware installed in days. First event within the week."
-- Primary: "Start the Conversation" → `mailto:bill@courtana.com?subject=Peak%20Pickleball%20Partnership`
-- Secondary: "Explore the Ecosystem" → `/partners`
-- Tertiary: "View the Dashboard" → `/dashboard`
+### Modified: `src/pages/Dashboard.tsx`
 
-### `src/pages/Dashboard.tsx`
-No changes needed — already says "Peak Pickleball" and "6 courts" references are correct.
+- KPI cards pull from live API: total clips, brands detected, player accounts, coverage %
+- Revenue chart stays as projections (that's venue-specific)
+- Add a "Live Intelligence" section below the existing content showing:
+  - Top 5 clips with thumbnails (from clips.json)
+  - Brand market share bar chart (from brands.json, real data replacing seed data)
+  - Player leaderboard (from players.json)
 
-### `src/components/Footer.tsx`
-No changes specified — leave as-is.
+### New page: `src/pages/Intelligence.tsx`
 
----
+- Full brand intelligence view (sortable table, market share chart)
+- Clip browser with video playback
+- Player profiles with radar charts
+- Links out to your gh-pages dashboards for deep dives
 
-## Technical Notes
-- Add `Handshake` to the lucide-react import on line 7
-- Both new sections use existing `fadeInUp`, `stagger`, and `motion` patterns — no new animation logic
-- Partnership Commitments uses `grid md:grid-cols-2` with glass cards
-- "What Happens Next" uses `grid md:grid-cols-3` with connecting borders
-- All responsive at 768px — both new sections stack to single column on mobile
+### Nav update
 
+- Add "Intelligence" to primary nav or under "More" dropdown
+
+## On Remixing Strategy
+
+Your instinct is right. Here's how I'd organize:
+
+- **This project** (courtana-venue-connect) = Peak Pickleball portal, the one Chris sees
+- **Concord fork** = already exists at [CONCORD Remix](/projects/0ad7c004-8e07-4c5a-b54a-ffa1bd1bd9cb)
+- **Template remix** = strip venue-specific content, keep data integration, use for next venue
+- **DinkData / PickleStats Hub** = your data-heavy apps, can share the same `pickleApi.ts` layer
+
+You can always go back to any build via Lovable's version history or by remixing before changes. - lets move forward with as much as you can...at least 1 & 2.    I'm not sure we need the Courtana API proxy, so we can address that one later. None of this is necessarily live CourtSense data, I believe, but let's bridge that one when the time comes. I would also encourage you to start thinking about edge AI functions that we can embed in here to make it more dynamic. Let's start by wiring this up and then move on to the next. Sound good? Great 
+
+## What I Need From You
+
+1. **Should I start Phase 1 now?** I can wire up the gh-pages API fetch layer and update the Dashboard with real data immediately -- no setup required on your end.
+2. **Do you want to enable Lovable Cloud?** This would let me set up Supabase tables and edge functions for Phase 2. Go to Cloud in the sidebar to enable it.
+3. **For the Courtana API proxy** (the edge function in your GitHub repo) -- do you have the Courtana API key accessible? That would enable live court session data.
