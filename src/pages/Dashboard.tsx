@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { Activity, DollarSign, Users, Camera, ExternalLink, Target } from "lucide-react";
+import { Activity, DollarSign, Users, Camera, ExternalLink, Target, Play, TrendingUp } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useFeed, useClips, useBrands, usePlayers } from "@/lib/pickleApi";
+import { Link } from "react-router-dom";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -46,6 +48,15 @@ const statusColors: Record<string, string> = {
 };
 
 const Dashboard = () => {
+  const { data: feed } = useFeed();
+  const { data: clips } = useClips();
+  const { data: brands } = useBrands();
+  const { data: players } = usePlayers();
+
+  const corpus = feed?.corpus;
+  const topClips = clips?.top_quality.slice(0, 4) ?? [];
+  const topBrands = brands?.brands.slice(0, 5).map((b) => ({ name: b.name, share: b.share_of_court })) ?? [];
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -70,13 +81,13 @@ const Dashboard = () => {
             </motion.div>
           </motion.div>
 
-          {/* KPIs */}
+          {/* KPIs — Live from API */}
           <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8" initial="hidden" animate="visible" variants={stagger}>
             {[
-              { label: "Sessions Recorded", value: "0", icon: Camera, sub: "Pilot starts April 7" },
-              { label: "Highlights Generated", value: "0", icon: Activity, sub: "Pilot starts April 7" },
+              { label: "Clips Analyzed", value: corpus?.total_clips.toLocaleString() ?? "—", icon: Camera, sub: `${corpus?.linked_to_courtana.toLocaleString() ?? "—"} linked to players` },
+              { label: "Brands Detected", value: corpus?.unique_brands.toString() ?? "—", icon: TrendingUp, sub: `Avg quality: ${corpus?.avg_quality.toFixed(1) ?? "—"}/10` },
               { label: "Event Revenue", value: "$0", icon: DollarSign, sub: "Pilot starts April 7", accent: true },
-              { label: "Player Accounts", value: "0", icon: Users, sub: "Pilot starts April 7" },
+              { label: "Player Accounts", value: corpus?.unique_players.toString() ?? "—", icon: Users, sub: `Avg viral: ${corpus?.avg_viral.toFixed(1) ?? "—"}/10` },
             ].map((k) => (
               <motion.div key={k.label} variants={fadeInUp} className={`glass rounded-2xl p-5 ${k.accent ? "border-accent/30 glow-green" : ""}`}>
                 <div className="flex items-center justify-between mb-3">
@@ -131,6 +142,65 @@ const Dashboard = () => {
             </motion.div>
           </div>
 
+          {/* Live Intelligence Preview */}
+          {topClips.length > 0 && (
+            <motion.div className="mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Play size={18} className="text-primary" />
+                  <h3 className="font-bold text-foreground">Live Intelligence Preview</h3>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/20 text-primary font-bold animate-pulse">LIVE</span>
+                </div>
+                <Link to="/intelligence" className="text-xs text-primary hover:underline flex items-center gap-1">
+                  View All <ExternalLink size={12} />
+                </Link>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {topClips.map((clip) => (
+                  <a key={clip.uuid} href={clip.video_url} target="_blank" rel="noopener noreferrer" className="glass rounded-xl overflow-hidden group hover:border-primary/30 transition-colors">
+                    <div className="relative aspect-video bg-secondary">
+                      <img src={clip.thumbnail} alt={clip.summary} className="w-full h-full object-cover" loading="lazy" />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Play size={28} className="text-white" />
+                      </div>
+                      <span className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-primary/80 text-white font-bold">Q{clip.quality}</span>
+                    </div>
+                    <div className="p-2.5">
+                      <p className="text-[11px] text-muted-foreground line-clamp-2">{clip.summary}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Brand Share Mini */}
+          {topBrands.length > 0 && (
+            <motion.div className="glass rounded-2xl p-6 mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <TrendingUp size={18} className="text-primary" />
+                  <h3 className="font-bold text-foreground">Top Brands on Court</h3>
+                </div>
+                <Link to="/intelligence" className="text-xs text-primary hover:underline flex items-center gap-1">
+                  Full Report <ExternalLink size={12} />
+                </Link>
+              </div>
+              <div className="space-y-3">
+                {topBrands.map((b, i) => (
+                  <div key={b.name} className="flex items-center gap-3">
+                    <span className="text-xs font-bold text-muted-foreground w-5 text-right">{i + 1}</span>
+                    <span className="text-sm font-medium text-foreground w-24">{b.name}</span>
+                    <div className="flex-1 h-2 rounded-full bg-secondary overflow-hidden">
+                      <div className="h-full rounded-full bg-primary" style={{ width: `${Math.min(b.share, 100)}%` }} />
+                    </div>
+                    <span className="text-xs text-muted-foreground w-12 text-right">{b.share.toFixed(1)}%</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           {/* Event Performance */}
           <motion.div className="glass rounded-2xl overflow-hidden mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
             <div className="p-6 pb-0">
@@ -180,7 +250,7 @@ const Dashboard = () => {
               {[
                 { target: "15% utilization lift", current: "Measuring..." },
                 { target: "$2,000/mo revenue lift", current: "Pilot in progress" },
-                { target: "50+ player accounts", current: "0 accounts" },
+                { target: "50+ player accounts", current: `${corpus?.unique_players ?? 0} accounts` },
               ].map((s) => (
                 <div key={s.target} className="bg-secondary/50 rounded-xl p-5">
                   <div className="text-xs text-muted-foreground uppercase tracking-wider font-bold mb-2">Target</div>

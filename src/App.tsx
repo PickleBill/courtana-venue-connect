@@ -7,6 +7,7 @@ import Events from "./pages/Events";
 import EventDetail from "./pages/EventDetail";
 import Schedule from "./pages/Schedule";
 import Dashboard from "./pages/Dashboard";
+import Intelligence from "./pages/Intelligence";
 import About from "./pages/About";
 import Discovery from "./pages/Discovery";
 import Partners from "./pages/Partners";
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/intelligence" element={<Intelligence />} />
           <Route path="/about" element={<About />} />
           <Route path="/discovery" element={<Discovery />} />
           <Route path="/partners" element={<Partners />} />

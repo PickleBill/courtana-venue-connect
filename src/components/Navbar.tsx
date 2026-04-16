@@ -10,6 +10,7 @@ const primaryLinks = [
 ];
 
 const moreLinks = [
+  { label: "Intelligence", href: "/intelligence" },
   { label: "Discovery", href: "/discovery" },
   { label: "Partners", href: "/partners" },
   { label: "Schedule", href: "/schedule" },
