@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Red+Hat+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,47 +6,50 @@
 
 @layer base {
   :root {
-    --background: 220 30% 6%;
-    --foreground: 214 32% 91%;
+    /* V32 Design System — Pickle DaaS unified tokens */
+    --background: 240 30% 4%;
+    --foreground: 0 0% 92%;
 
-    --card: 220 22% 10%;
-    --card-foreground: 214 32% 91%;
+    --card: 240 22% 6%;
+    --card-foreground: 0 0% 92%;
+    --card-elevated: 240 22% 8%;
 
-    --popover: 220 22% 10%;
-    --popover-foreground: 214 32% 91%;
+    --popover: 240 22% 6%;
+    --popover-foreground: 0 0% 92%;
 
-    --primary: 145 100% 45%;
-    --primary-foreground: 220 30% 6%;
+    /* Chapter: Intelligence (teal-mint) */
+    --primary: 156 80% 65%;
+    --primary-foreground: 240 30% 4%;
 
-    --secondary: 215 19% 16%;
-    --secondary-foreground: 214 32% 91%;
+    --secondary: 240 14% 11%;
+    --secondary-foreground: 0 0% 92%;
 
-    --muted: 215 19% 16%;
-    --muted-foreground: 215 16% 62%;
+    --muted: 240 14% 11%;
+    --muted-foreground: 228 10% 55%;
 
-    --accent: 48 100% 50%;
-    --accent-foreground: 220 30% 6%;
+    /* Chapter: Venue (warm amber) */
+    --accent: 30 100% 71%;
+    --accent-foreground: 240 30% 4%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217 19% 17%;
-    --input: 217 19% 17%;
-    --ring: 145 100% 45%;
+    --border: 0 0% 100% / 0.05;
+    --input: 0 0% 100% / 0.08;
+    --ring: 156 80% 65%;
 
     --radius: 0.75rem;
 
-    --card-elevated: 215 25% 13%;
-    --card-glass: 220 22% 10%;
+    --card-glass: 240 22% 6%;
 
-    --sidebar-background: 220 22% 10%;
-    --sidebar-foreground: 214 32% 91%;
-    --sidebar-primary: 145 100% 45%;
-    --sidebar-primary-foreground: 220 30% 6%;
-    --sidebar-accent: 215 19% 16%;
-    --sidebar-accent-foreground: 214 32% 91%;
-    --sidebar-border: 217 19% 17%;
-    --sidebar-ring: 145 100% 45%;
+    --sidebar-background: 240 22% 6%;
+    --sidebar-foreground: 0 0% 92%;
+    --sidebar-primary: 156 80% 65%;
+    --sidebar-primary-foreground: 240 30% 4%;
+    --sidebar-accent: 240 14% 11%;
+    --sidebar-accent-foreground: 0 0% 92%;
+    --sidebar-border: 0 0% 100% / 0.05;
+    --sidebar-ring: 156 80% 65%;
   }
 }
 
@@ -56,56 +59,131 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Manrope', system-ui, sans-serif;
+    background-color: #08080C;
   }
 
   html {
     scroll-behavior: smooth;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+  }
 }
 
 @layer utilities {
+  /* V32 Glass morphism */
   .glass {
-    @apply bg-card/80 backdrop-blur-xl border border-border;
+    background: rgba(255,255,255, 0.03);
+    border: 1px solid rgba(255,255,255, 0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   .glass-nav {
-    @apply bg-background/80 backdrop-blur-xl border-b border-border;
+    background: rgba(8,8,12, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255, 0.05);
   }
 
-  .glow-green {
-    box-shadow: 0 0 20px hsl(145 100% 45% / 0.15);
+  /* V32 Chapter accent glows */
+  .glow-int {
+    box-shadow: 0 0 30px rgba(110,239,192, 0.12);
   }
 
-  .glow-green-hover:hover {
-    box-shadow: 0 0 30px hsl(145 100% 45% / 0.25);
-    border-color: hsl(145 100% 45% / 0.4);
+  .glow-int-hover:hover {
+    box-shadow: 0 0 40px rgba(110,239,192, 0.2);
+    border-color: rgba(110,239,192, 0.25);
   }
 
-  .text-gradient-green {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(145 100% 45%), hsl(145 80% 60%));
+  .glow-venue {
+    box-shadow: 0 0 30px rgba(255,184,108, 0.12);
   }
 
-  .text-gradient-gold {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(48 100% 50%), hsl(40 100% 60%));
+  /* V32 Gradient text */
+  .text-gradient-int {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #6EEFC0, #6BA3FF);
   }
 
-  .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4rem);
+  .text-gradient-venue {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #FFB86C, #F1C40F);
+  }
+
+  .text-gradient-revenue {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #F1C40F, #FFB86C);
+  }
+
+  /* V32 Typography scale */
+  .h-hero {
+    font-size: clamp(2.2rem, 5vw, 4.2rem);
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
   }
 
-  .section-title {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    font-weight: 800;
-    line-height: 1.2;
+  .h-section {
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
   }
 
-  .label-text {
-    @apply text-xs uppercase tracking-wider font-bold;
+  .h-card {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
   }
+
+  /* V32 Eyebrow labels */
+  .eyebrow {
+    font-family: 'Red Hat Mono', ui-monospace, monospace;
+    font-size: clamp(0.65rem, 1.2vw, 0.78rem);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255, 0.40);
+  }
+
+  /* V32 Data font */
+  .font-data {
+    font-family: 'Red Hat Mono', ui-monospace, monospace;
+  }
+
+  /* V32 Text opacity tiers */
+  .t1 { color: rgba(255,255,255, 0.92); }
+  .t2 { color: rgba(255,255,255, 0.70); }
+  .t3 { color: rgba(255,255,255, 0.50); }
+  .t4 { color: rgba(255,255,255, 0.40); }
+  .t5 { color: rgba(255,255,255, 0.30); }
+
+  /* V32 Section divider */
+  .divider {
+    width: 120px;
+    height: 1px;
+    margin: 80px auto;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  }
+
+  /* V32 Scroll reveal */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1),
+                transform 0.75s cubic-bezier(0.22,1,0.36,1);
+  }
+  [data-reveal].revealed { opacity: 1; transform: none; }
 }

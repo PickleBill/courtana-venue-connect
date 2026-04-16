@@ -14,7 +14,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Manrope", "system-ui", "sans-serif"],
+        display: ["Manrope", "system-ui", "sans-serif"],
+        mono: ["Red Hat Mono", "ui-monospace", "monospace"],
+        data: ["Red Hat Mono", "ui-monospace", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
